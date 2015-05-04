@@ -1,0 +1,244 @@
+.page-body {
+   @include transition (left, 1s, ease-in-out);
+   left: 0;
+   position: relative;
+  &.menu-open {
+    position: absolute;
+    z-index: 0;
+  }
+}
+
+.code-snippets-section {
+  height: 45em;
+  position: relative;
+  &.fixed {
+    position: fixed;
+    width:100%;
+  }
+}
+
+.main-header-section {
+  top:2em;
+  z-index: 30;
+  width: 100%;
+}
+
+.main-header-section-inner-wrap {
+  position: relative;
+  z-index: 15;
+  &.fixed {
+    position: fixed;
+    background-color: $navy;
+    width:100%;
+    top: 0;
+  }
+}
+
+.header-logo-area {
+  display: inline-block;
+  vertical-align: top;
+  width: 25%;
+}
+
+.header-logo-link {
+  visibility: visible;
+  opacity: 1;
+  top: 0;
+  @include transition (all, 1s, ease-in-out);
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+    top: -10em;
+    position: absolute;
+  }
+}
+
+.header-logo-image {
+  width: 10em;
+}
+
+.header-condensed-logo-link {
+  visibility:visible;
+  opacity: 1;
+  bottom: 0;
+  @include transition (all, 0.5s, ease-in-out);
+  &.hidden{
+    visibility: hidden;
+    opacity: 0;
+    bottom: -10em;
+    position: absolute;
+    display: block;
+  }
+}
+
+.header-condensed-logo-image {
+  width: 2em;
+  padding-top: 0.5em;
+}
+
+.main-header-mobile-menu-button {
+  @include breakpoint ($breakpoint-medium) {
+    display: none;
+  }
+  @include reverse-breakpoint ($breakpoint-medium) {
+    display: inline-block;
+    float: right;
+    margin: 1em 1em 0 0;
+    @include remove-button-styles;
+    &:after {
+      color: white;
+      font-family: icomoon; 
+      content: $menu-icon;
+      font-size: 2em;
+    }
+  }
+}
+
+.main-header-mobile-menu-close-button {
+  display: none;
+  @include reverse-breakpoint ($breakpoint-medium) {
+    display: block;
+    float: right;
+    padding: 1em 1em 0 0;
+    @include remove-button-styles;
+    &:after {
+      color: white;
+      font-family: icomoon; 
+      content: $x-icon;
+      font-size: 2em;
+    }
+  }
+}
+
+.main-navigaiton {
+  display: inline-block;
+  vertical-align: top;
+  width: 74.5%;
+  @include reverse-breakpoint ($breakpoint-medium) {
+    visibility: hidden;
+    position: fixed;
+    right: -100%;
+    height: 100vh;
+    width: 100%;
+    top: -0.5em;
+    @include transition (all, 1s, ease-in-out);
+    &.menu-open {
+      visibility: visible;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom:0;
+      height: 100vh;
+      width: 100%;
+      top: -0.5em;
+      background-color: black;
+      z-index: 100;
+    }
+  }
+}
+
+.main-navigation-list {
+  width: 100%;
+  text-align: right;
+  padding: 0.5em 0 0;
+  & > li {
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
+    padding: 0 1.2em;
+  }
+  @include reverse-breakpoint ($breakpoint-medium) {
+    padding-top: 1em;
+    & > li {
+      display: block;
+      text-align: center;
+      padding: 1.5em 0;
+    }
+  }
+}
+
+.main-navigation-link {
+  color: white;
+  text-decoration: none;
+  font-family: Arial;
+  text-transform: uppercase; 
+  font-size: 0.9em;
+}
+
+.scrollable-header-section {
+  
+}
+
+.scrollable-header-section-background-image-area {
+  position: absolute;
+  height: 100% !important;
+  width: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.scrollable-header-section-background-image,
+.scrollable-header-section-blurred-background-image  {
+  position: absolute;
+  background-repeat: no-repeat;
+  background-position: center center;
+  //background-attachment: fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.scrollable-header-section-background-image {
+  opacity: 1;
+  z-index: 10;
+  @include transition (all, 1s, ease-in-out);
+  &.blur {
+    opacity: 0;
+    display: none;
+  } 
+}
+
+.scrollable-header-section-blurred-background-image {
+  @include transition (all, 0.8 , ease-in-out);
+  z-index: 0;
+  opacity: 1;
+  &.hidden {
+    //opacity: 0;
+  }
+}
+
+.scrollable-header-content-area {
+  @include inner-wrap;
+}
+
+.scrollable-header-content-area-inner-wrap {
+  position: relative;
+ text-align: center;
+ padding-top: 8em;
+ opacity: 1;
+  @include transition (all, 0.8s , ease-in-out);
+  &.blur {
+    opacity:0;
+    padding-top: 15em;
+  }
+}
+
+.scrollable-header-content-image {
+  width:35em;
+}
+
+.scrollable-header-content-header {
+  color: white;
+  font-family: 'Lato';
+  //text-transform: lowercase;
+  font-size: 1.5em;
+  font-weight: 100;
+  width: 60%;
+  margin: 0 auto;
+  opacity: 0.6;
+  line-height: 1em;
+}

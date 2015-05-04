@@ -1,0 +1,47 @@
+@mixin transition($properties, $duration, $easing) {
+  @if length($properties) > 1 {
+    transition-property: $properties;
+    transition-duration: $duration;
+    transition-timing-function: $easing;
+  } @else {
+    transition: $properties $duration $easing;
+  }
+}
+
+@mixin breakpoint ( $p-start ) {
+        @if ( is-gte-ie9() ) {
+                @media (min-width: $p-start) {
+                        @content;
+                }
+        } @else {
+                @content;
+        }
+}
+
+@mixin reverse-breakpoint ( $p-start ) {
+        @if ( is-gte-ie9() ) {
+                @media (max-width: $p-start - 0.001em ) {
+                        @content;
+                }
+        }
+
+}
+
+@mixin breakpoint-range ( $p-start, $p-end ) {
+        @if ( is-gte-ie9() ) {
+                @media ( min-width: $p-start ) and (max-width: $p-end - 0.001em ) {
+                        @content;
+                }
+        }
+}
+
+@mixin remove-button-styles {
+  outline: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+@mixin font-face ( $p-name, $p-file, $p-weight: 'normal', $p-style: 'normal' ) {
+        @font-face { font-family: $p-name; src: url('#{$p-file}.eot'); src: url('#{$p-file}.eot?#iefix') format('embedded-opentype'), url('#{$p-file}.woff') format('woff'), url('#{$p-file}.ttf') format('truetype'), url('#{$p-file}.svg##{$p-name}') format('svg'); font-weight: #{$p-weight}; font-style: #{$p-style}; }
+}

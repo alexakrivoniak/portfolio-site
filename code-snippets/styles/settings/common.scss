@@ -1,0 +1,53 @@
+@mixin inner-wrap {
+  position: relative; max-width: $breakpoint-large; margin: 0 auto;
+  @include breakpoint-range ($breakpoint-medium, $breakpoint-large) {
+    padding: 0 2em;
+  }
+  @include reverse-breakpoint ($breakpoint-medium) {
+    padding: 0 0.5em;
+  }
+}
+
+html {
+	font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;
+}
+
+.overflow-wrap {
+	min-width: $breakpoint-small;
+	overflow: hidden;
+}
+
+.transform-wrap {
+  position: relative;
+}
+
+.page-segment {
+	max-width: $breakpoint-large; margin: 0 auto;
+}
+
+ul, h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding:0;
+}
+
+html, button, input, select, textarea {
+	//@include default-font;
+}
+
+body {
+	margin: 0; font-size: 1em; line-height: 1.4em; color: black; background: white;
+}
+
+
+//Fonts
+
+@mixin font-face ( $p-name, $p-file, $p-weight: 'normal', $p-style: 'normal' ) {
+        @font-face { font-family: $p-name; src: url('#{$p-file}.eot'); src: url('#{$p-file}.eot?#iefix') format('embedded-opentype'), url('#{$p-file}.woff') format('woff'), url('#{$p-file}.ttf') format('truetype'), url('#{$p-file}.svg##{$p-name}') format('svg'); font-weight: #{$p-weight}; font-style: #{$p-style}; }
+}
+
+@include font-face ( 'icomoon', '../../fonts/icomoon' );
+
+@mixin body-font {
+  font-family: 'Lato';
+  font-size: 0.9em;
+}
