@@ -1,0 +1,112 @@
+@mixin inner-wrap {
+  position: relative; max-width: $breakpoint-large; margin: 0 auto;
+  padding-left: 2em;
+  padding-right: 2em;
+  @include breakpoint-range ($breakpoint-medium, $breakpoint-large) {
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+  @include reverse-breakpoint ($breakpoint-medium) {
+     padding-left: 0.5em;
+     padding-right: 0.5em;
+  }
+}
+
+html {
+	font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;
+}
+
+.overflow-wrap {
+	min-width: $breakpoint-small;
+	overflow: hidden;
+}
+
+.transform-wrap {
+  position: relative;
+}
+
+.page-segment {
+	max-width: $breakpoint-large; margin: 0 auto;
+}
+
+ul, h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding:0;
+}
+
+ul {
+  list-style: none;
+}
+
+html, button, input, select, textarea {
+	//@include body-font;
+}
+
+body {
+	margin: 0; font-size: 1em; line-height: 1.4em; color: black; background: white;
+}
+
+
+//Fonts
+
+@mixin font-face ( $p-name, $p-file, $p-weight: 'normal', $p-style: 'normal' ) {
+        @font-face { font-family: $p-name; src: url('#{$p-file}.eot'); src: url('#{$p-file}.eot?#iefix') format('embedded-opentype'), url('#{$p-file}.woff') format('woff'), url('#{$p-file}.ttf') format('truetype'), url('#{$p-file}.svg##{$p-name}') format('svg'); font-weight: #{$p-weight}; font-style: #{$p-style}; }
+}
+
+@include font-face ( 'icomoon', '../../fonts/icomoon' );
+
+@mixin body-font {
+  font-family: 'Lato';
+  font-size: 0.9em;
+}
+
+// Links
+
+@mixin white-common-button {
+  @include remove-button-styles;
+  border: 0.1em solid white;
+  display: block;
+  border-radius: 1.2em;
+  padding: 0.6em 0;
+  width: 10em;
+  text-transform: uppercase;
+  @include body-font;
+  font-size: 0.8em;
+  color: white;
+  @include transition(all , 0.5s, ease-in-out);
+  &:hover {
+    color: black;
+    background-color: white;
+  } 
+}
+
+@mixin link-with-underline-on-hover ($link-color, $border-color, $border-height) {
+  	padding: 2px 0;
+  	position: relative;
+  	text-decoration: none;
+  	@include body-font;
+  	color: $link-color; 
+    &:after {
+    	position: absolute;
+    	top: 100%;
+    	left: 0;
+    	width: 100%;
+    	height: $border-height;
+    	background: $border-color;
+    	content: '';
+    	opacity: 0;
+    	@include transition(opacity, 0.5s, ease-in-out);
+    	transition: opacity 0.3s, transform 0.3s;
+    	-webkit-transform: translateY(8px);
+    	-moz-transform: translateY(8px);
+    	transform: translateY(8px);
+    }
+    &:hover{ 
+      &:after {
+      	opacity: 1;
+      	-webkit-transform: translateY(0px);
+      	-moz-transform: translateY(0px);
+      	transform: translateY(0px);
+      }
+    }
+}

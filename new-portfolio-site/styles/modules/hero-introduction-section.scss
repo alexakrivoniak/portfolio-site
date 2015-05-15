@@ -1,0 +1,28 @@
+.hero-introduction-section {
+   background: url(../../images/hero-introduction-background-image-large.jpg) no-repeat center bottom fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 40em;
+  z-index: 5;
+}
+
+.hero-introduction-section-inner-wrap {
+  @include inner-wrap;
+  padding-top: 16em;
+}
+
+.hero-introduction-section-copy {
+  color: white;
+  @include body-font;
+  font-size: 1.8em;
+  font-weight: 300;
+  line-height: 1.5em;
+}
+
+.hero-introduction-section-button {
+  margin-top: 1.5em;
+  @include white-common-button;
+}
+

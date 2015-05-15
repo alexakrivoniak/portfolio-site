@@ -1,0 +1,68 @@
+.header-section {
+  position: absolute;
+  top: 4em;
+  width: 100%;
+  z-index: 50;
+}
+
+.header-section-inner-wrap {
+  @include inner-wrap;
+}
+
+.header-section-logo-area {
+  display: inline-block;
+  vertical-align: top;
+  width: 10%;
+}
+
+.header-section-logo-link {
+  
+}
+
+.header-section-logo {
+  max-width: 6.5em;
+}
+
+.header-section-mobile-menu-button {
+  display: none;
+}
+
+.header-section-navigation-area {
+  display: inline-block;
+  vertical-align: top;
+  width: 89%;
+}
+
+.header-section-close-mobile-menu-button {
+  display: none;
+}
+
+.header-section-navigation-list {
+  text-align: right;
+  & > li {
+    display: inline-block;
+    vertical-align: top;
+    padding: 0.6em 2em 0;
+  }
+  & > li:first-child {
+    & > .header-section-navigation-link {
+      @include link-with-underline-on-hover (white, $maroon, 2px); 
+    }
+  }
+  & > li + li {
+    & > .header-section-navigation-link  {
+      @include link-with-underline-on-hover (white, $pink, 2px); 
+    }
+  }
+  & > li + li + li {
+    & > .header-section-navigation-link {
+      padding-right: 0;
+      @include link-with-underline-on-hover (white, $navy, 2px); 
+    }
+  }
+}
+
+.header-section-navigation-link {
+  text-transform: uppercase;
+  font-weight: 100;
+}

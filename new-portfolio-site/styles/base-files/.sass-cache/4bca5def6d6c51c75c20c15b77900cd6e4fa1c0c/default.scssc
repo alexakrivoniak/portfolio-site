@@ -1,0 +1,1192 @@
+3.3.7 (Maptastic Maple)
+d14977a226dab5f02c9178a2732cffe27576465a
+o:Sass::Tree::RootNode:@has_childrenT:
+@linei:@template"1$framework-breaking-change-id: '2013.Q4.V2';
+$breakpoint-where-media-queries-are-not-supported: 100em !default;
+
+@if ( $project-breaking-change-id != $framework-breaking-change-id ) {
+  @include the-project-and-framework-versions-are-not-compatible;
+}
+
+@function is-gte-ie8( ) {
+  @if ( $output-stylesheet-id == 'lte-ie7' ) { @return false; }
+  @return true;
+}
+
+@function is-gte-ie9( ) {
+  @if ( $output-stylesheet-id == 'ie9' ) { @return true; }
+  @if ( $output-stylesheet-id == 'standards' ) { @return true; }
+  @return false;
+}
+
+@function is-standards( ) {
+  @if ( $output-stylesheet-id == 'standards' ) { @return true; }
+  @return false;
+}
+
+@function is-lte-ie7( ) {
+  @if ( $output-stylesheet-id == 'lte-ie7' ) { @return true; }
+  @return false;
+}
+
+@function internal-wrap-list-in-function ( $p-function-name, $p-list... ) {
+        $p-new-list: '';
+        $p-comma: '';
+        @each $p-item in $p-list {
+                $p-new-list: $p-new-list + $p-comma + $p-function-name + '(' + $p-item + ')';
+                $p-comma: ',';
+        }
+        @return $p-new-list;
+}
+
+@mixin internal-prefix-property-not-value ( $p-prop, $p-value... ) {
+        #{$p-prop}: $p-value;
+        -webkit-#{$p-prop}: $p-value;
+        -o-#{$p-prop}: $p-value;
+        -moz-#{$p-prop}: $p-value;
+        -ms-#{$p-prop}: $p-value;
+}
+
+@mixin internal-prefix-property-and-value ( $p-prop, $p-value... ) {
+        #{$p-prop}: $p-value;
+        -webkit-#{$p-prop}: -webkit-#{$p-value};
+        -o-#{$p-prop}: -o-#{$p-value};
+        -moz-#{$p-prop}: -moz-#{$p-value};
+        -ms-#{$p-prop}: -ms-#{$p-value};
+}
+
+@mixin copy-bulleted-list {
+  list-style: outside circle; padding-left: 2.5em;
+  & > li {
+    display: list-item;
+  }
+}
+
+@mixin copy-numbered-list {
+  list-style: outside decimal; padding-left: 2.5em;
+  & > li {
+    display: list-item;
+  }
+}
+
+@mixin clear {
+  @if ( is-gte-ie8() ) {
+          &:after, &:before {
+                  content: "";
+                  display: table;
+                  clear: both;
+          }
+  } @else {
+                zoom: 1; clear: both;
+  }
+}
+
+@mixin border-radius ( $p-value ) {
+  @if ( is-gte-ie8() ) {
+                border-radius: $p-value;
+                -webkit-border-radius: $p-value;
+                -moz-border-radius: $p-value;
+        }
+}
+
+@mixin transition ( $p-value... ) {
+  @if ( is-standards() ) {
+    @include internal-prefix-property-not-value ( transition, $p-value );
+        }
+}
+
+@mixin transform ( $p-value ) {
+  @if ( is-gte-ie9() ) {
+          @include internal-prefix-property-not-value ( transform, $p-value );
+  }
+}
+
+@mixin transform-origin ( $p-value ) {
+  @include internal-prefix-property-not-value ( transform-origin, $p-value );
+}
+
+@mixin animation ( $p-value... ) {
+  @if ( is-standards() ) {
+          animation: $p-value;
+          -webkit-animation: $p-value;
+          -moz-animation: $p-value;
+  }
+}
+
+@mixin transition-property ( $p-value... ) {
+  @if ( is-standards() ) {
+          @include internal-prefix-property-not-value ( transition-property, $p-value );
+  }
+}
+
+@mixin transition-timing-function ( $p-value... ) {
+  @if ( is-standards() ) {
+          @include internal-prefix-property-not-value ( transition-timing-function, $p-value );
+  }
+}
+
+@mixin transition-delay ( $p-value... ) {
+  @if ( is-standards() ) {
+          @include internal-prefix-property-not-value ( transition-delay, $p-value );
+  }
+}
+
+@mixin transition-duration ( $p-value... ) {
+  @if ( is-standards() ) {
+          @include internal-prefix-property-not-value ( transition-duration, $p-value );
+  }
+}
+
+@mixin transition-property-transform-and ( $p-more... ) {
+  @if ( is-standards() ) {
+          @include internal-prefix-property-and-value ( transition-property, transform, $p-more... );
+  }
+}
+
+$background-before-gradient: '';
+$background-after-gradient: '';
+
+@mixin directional-linear-gradient ( $p-start-term, $p-stops... ) {
+        $p-wrapped-stops: internal-wrap-list-in-function( 'color-stop', $p-stops... );
+        $p-alt-term-a: 'left top';
+        $p-alt-term-b: 'left bottom';
+        $p-end-term: 'bottom';
+        @if ( $p-start-term == left ) {
+                $p-alt-term-a: 'left top';
+                $p-alt-term-b: 'right top';
+                $p-end-term: 'right';
+        }
+  @if ( is-standards() ) {
+                background-image: #{$background-before-gradient} -moz-linear-gradient($p-start-term, $p-stops) #{$background-after-gradient};
+                background-image: #{$background-before-gradient} -webkit-gradient(linear, #{$p-alt-term-a}, #{$p-alt-term-b}, #{$p-wrapped-stops} ) #{$background-after-gradient};
+                background-image: #{$background-before-gradient} -webkit-linear-gradient($p-start-term, $p-stops) #{$background-after-gradient};
+                background-image: #{$background-before-gradient} -o-linear-gradient($p-start-term, $p-stops) #{$background-after-gradient};
+                background-image: #{$background-before-gradient} -ms-linear-gradient($p-start-term, $p-stops) #{$background-after-gradient};
+                background-image: #{$background-before-gradient} linear-gradient(to $p-end-term, $p-stops) #{$background-after-gradient};
+        }
+}
+
+@mixin angular-linear-gradient ( $p-angle, $p-stops... ) {
+        $p-wrapped-angle: $p-angle;
+        $p-alt-term-a: 'right top';
+        $p-alt-term-b: 'left bottom';
+        @if ( $p-wrapped-angle < 0 ) {
+                $p-wrapped-angle: $p-wrapped-angle + 180;
+                $p-alt-term-a: 'left top';
+                $p-alt-term-b: 'right bottom';
+        }
+        $p-wrapped-stops: internal-wrap-list-in-function( 'color-stop', $p-stops... );
+  @if ( is-standards() ) {
+                background-image: -moz-linear-gradient(#{$p-angle}deg, $p-stops);
+                background-image: -webkit-gradient(linear, #{$p-alt-term-a}, #{$p-alt-term-b}, #{$p-wrapped-stops} );
+                background-image: -webkit-linear-gradient(#{$p-angle}deg, $p-stops);
+                background-image: -o-linear-gradient(#{$p-angle}deg, $p-stops);
+                background-image: -ms-linear-gradient(#{$p-angle}deg, $p-stops);
+                background-image: linear-gradient(#{$p-wrapped-angle}deg, $p-stops);
+        }
+}
+
+@mixin shape-radial-gradient ( $p-shape-term, $p-position-term, $p-stops... ) {
+  @if ( is-standards() ) {
+                background-image: -moz-radial-gradient($p-position-term, $p-shape-term cover, $p-stops);
+                background-image: -webkit-radial-gradient($p-position-term, $p-shape-term cover, $p-stops);
+                background-image: -o-radial-gradient($p-position-term, $p-shape-term cover, $p-stops);
+                background-image: -ms-radial-gradient($p-position-term, $p-shape-term cover, $p-stops);
+                background-image: radial-gradient($p-shape-term at $p-position-term, $p-stops);
+        }
+}
+
+@mixin filter-linear-gradient ( $p-start-color, $p-end-color, $p-type ) {
+  @if ( not is-standards() ) {
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$p-start-color}', endColorstr='#{$p-end-color}',GradientType=#{$p-type} );
+        }
+}
+
+@mixin property-and-value-in-rem-or-pixels ( $p-prop, $p-value ) {
+  @if ( is-gte-ie9() ) {
+                #{$p-prop}: #{$p-value}rem;
+  } @else {
+          #{$p-prop}: #{$p-value}px;
+  }
+}
+
+@mixin display-inline-block {
+  @if ( is-gte-ie8() ) {
+          display: inline-block;
+  } @else {
+                zoom: 1; display: inline;
+        }
+}
+
+@mixin column-count-and-gap ( $p-count: 2, $p-gap: 1em ) {
+  @if ( is-standards() ) {
+          column-count: $p-count;
+          -moz-column-count: $p-count;
+          -webkit-column-count: $p-count;
+          column-gap: $p-gap;
+          -moz-column-gap: $p-gap;
+          -webkit-column-gap: $p-gap;
+  }
+}
+
+@mixin column-span ( $p-value: all ) {
+  @if ( is-standards() ) {
+          column-span: $p-value;
+          -moz-column-span: $p-value;
+          -webkit-column-span: $p-value;
+  }
+}
+
+@mixin column-rule ( $p-value ) {
+  @if ( is-standards() ) {
+          column-rule: $p-value;
+          -moz-column-rule: $p-value;
+          -webkit-column-rule: $p-value;
+  }
+}
+
+@mixin table-column-set-with-width ( $p-width: 100%, $p-collapse: separate ) {
+        width: $p-width;
+  @if ( is-gte-ie8() ) {
+          border-collapse: $p-collapse;
+    display: table;
+  }
+}
+
+@mixin table-cell-column ( ) {
+  @if ( is-gte-ie8() ) {
+          display: table-cell;
+  } @else {
+    @include display-inline-block;
+  }
+}
+
+@mixin element-hovers-to-underline ( ) {
+        text-decoration: none;
+        &:hover {
+                text-decoration: underline;
+        }
+}
+
+@mixin border-triangle-of-direction-color-length-and-depth ( $p-direction: right, $p-color: $color-primary, $p-length: 1em, $p-depth: 1em ) {
+        border-style: solid;
+        @if ( $p-direction == top ) { border-color: #{$p-color} transparent; border-width: 0 #{$p-depth} #{$p-length} #{$p-depth}; }
+        @if ( $p-direction == right ) { border-color: transparent #{$p-color}; border-width: #{$p-depth} 0 #{$p-depth} #{$p-length}; }
+        @if ( $p-direction == bottom ) { border-color: #{$p-color} transparent; border-width: #{$p-length} #{$p-depth} 0 #{$p-depth}; }
+        @if ( $p-direction == left ) { border-color: transparent #{$p-color}; border-width: #{$p-depth} #{$p-depth} #{$p-length} 0; }
+        width: 0;
+        height: 0;
+        display: block;
+}
+
+// CANDIDATE TO REMOVE
+@mixin box-sizing-border-box ( ) {
+  @if ( is-gte-ie8 () ) {
+          box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          -webkit-box-sizing: border-box;
+  }
+}
+
+// REPLACEMENT FOR box-sizing-border-box
+@mixin box-sizing ( $value ) {
+  box-sizing: $value;
+  -webkit-box-sizing: $value;
+  -moz-box-sizing: $value;
+}
+
+@mixin font-face( $p-name, $p-file, $p-weight: 'normal', $p-style: 'normal' ) {
+        @font-face { font-family: $p-name; src: url('#{$p-file}.eot'); src: url('#{$p-file}.eot?#iefix') format('embedded-opentype'), url('#{$p-file}.woff') format('woff'), url('#{$p-file}.ttf') format('truetype'), url('#{$p-file}.svg##{$p-name}') format('svg'); font-weight: #{$p-weight}; font-style: #{$p-style}; }
+}
+
+@mixin box-shadow( $p-shadow... ) {
+  @if ( is-gte-ie9 () ) {
+                box-shadow: $p-shadow;
+                -webkit-box-shadow: $p-shadow;
+                -moz-box-shadow: $p-shadow;
+        }
+}
+
+@mixin background-svg( $p-path, $p-fallback: 'png' ) {
+  @if ( is-gte-ie8 () ) {
+                background-image: url(#{$p-path}.svg);
+                .no-svg & {
+                        background-image: url(#{$p-path}.#{$p-fallback});
+                }
+        } @else {
+                background-image: url(#{$p-path}.#{$p-fallback});
+        }
+}
+
+@mixin keyframes ( $p-name ) {
+  @if ( is-gte-ie8 () ) {
+                @keyframes #{$p-name} { @content; }
+                @-webkit-keyframes #{$p-name} { @content; }
+                @-moz-keyframes #{$p-name} { @content; }
+                @-ms-keyframes #{$p-name} { @content; }
+                @-o-keyframes #{$p-name} { @content; }
+        }
+}
+
+@mixin appear {
+        appearance: normal; -webkit-appearance: none;
+}
+
+@mixin breakpoint ( $p-start ) {
+        @if ( is-gte-ie9() ) {
+                @media (min-width: $p-start) {
+                        @content;
+                }
+        } @else {
+                @content;
+        }
+}
+
+@mixin reverse-breakpoint ( $p-start ) {
+        @if ( is-gte-ie9() ) {
+                @media (max-width: $p-start - 0.001em ) {
+                        @content;
+                }
+        }
+
+}
+
+@mixin breakpoint-range ( $p-start, $p-end ) {
+        @if ( is-gte-ie9() ) {
+                @media ( min-width: $p-start ) and (max-width: $p-end - 0.001em ) {
+                        @content;
+                }
+        }
+}
+
+@mixin text-is-one-line-ellipsis {
+        text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
+}
+
+@mixin justified-inline-block-layout {
+  text-align: justify;
+  line-height: 0;
+  &:after {
+    content: "";
+    @include display-inline-block;
+    width: 100%;
+    height: 0;
+  }
+  & > * {
+    @include display-inline-block;
+    line-height: 1;
+    vertical-align: top;
+  }
+}
+
+@mixin justified-inline-block-layout-parent {
+  text-align: justify;
+  line-height: 0;
+  &:after {
+    content: "";
+    @include display-inline-block;
+    width: 100%;
+    height: 0;
+  }
+}
+
+@mixin justified-inline-block-layout-child {
+  @include display-inline-block;
+  line-height: 1;
+  vertical-align: top;
+}
+
+@mixin child-margins-are-contained {
+  padding-top: 1px; padding-bottom: 1px;
+}
+
+:@options{ :@children[<o:Sass::Tree::VariableNode:@global0;i:@guarded0;	@;
+[ :
+@expro: Sass::Script::Tree::Literal	:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss;i:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i:@offseti1:@start_poso;;i;i%:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String;	@:
+@type:string;"2013.Q4.V2:
+@name"!framework-breaking-change-id;o;	;@;o;;i;i1;o;;i;i;@o;;0;i;T;	@;
+[ ;o;	;@;i;o;	;@;o;;i;i>;o;;i;i9;@;o: Sass::Script::Value::Number
+:@original"
+100em:@denominator_units[ ;	@:@numerator_units["em;ii;""5breakpoint-where-media-queries-are-not-supported;o;	;@;o;;i;iG;o;;i;i;@u:Sass::Tree::IfNodeº[o:"Sass::Script::Tree::Operation:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@operator:neq:@operand2o:!Sass::Script::Tree::Variable;@:
+@linei	:@underscored_name"!framework_breaking_change_id:@options{ :
+@name"!framework-breaking-change-id:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i	:@offsetiH:@start_poso;;i	;i+:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5;i	:@operand1o;
+;@;i	;"project_breaking_change_id;@
+;"project-breaking-change-id;o;	;@;o;;i	;i';o;;i	;i;@;@
+;o;	;@;o;;i	;iI;@;@0[o:Sass::Tree::MixinNode;i
+:@splat0;@
+:@children[ :@kwarg_splat0;":the-project-and-framework-versions-are-not-compatible:
+@args[ :@keywords{ ;o;	;@;o;;i
+;iF;o;;i
+;i;@o:Sass::Tree::FunctionNode;T;i:@splat0;	@;
+[u;'»[o:"Sass::Script::Tree::Operation:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@operator:eq:@operand2o: Sass::Script::Tree::Literal	;@:
+@linei:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i:@offseti0:@start_poso;;i;i':@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String:@options{ :
+@type:string;"lte-ie7;i:@operand1o:!Sass::Script::Tree::Variable;@;i:@underscored_name"output_stylesheet_id;@:
+@name"output-stylesheet-id;o;	;@;o;;i;i#;o;;i;i;@;@;o;	;@;o;;i;i1;@;@0[o:Sass::Tree::ReturnNode
+;i;@:@children[ :
+@expro;
+	;@;i;o;	;@;o;;i;iB;o;;i;i=;@;o:Sass::Script::Value::Bool;@;F;o;	;@;o;;i;iB;o;;i;i5;@o:Sass::Tree::ReturnNode
+;i;	@;
+[ ;o;	;@;i;o;	;@;o;;i;i;o;;i;i;@;o:Sass::Script::Value::Bool;	@;T;o;	;@;o;;i;i;o;;i;i;@;""is-gte-ie8:
+@args[ ;o;	;@;o;;i;i;o;;i;i;@o;(;T;i;)0;	@;
+[u;'ƒ[o:"Sass::Script::Tree::Operation:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@operator:eq:@operand2o: Sass::Script::Tree::Literal	;@:
+@linei:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i:@offseti,:@start_poso;;i;i':@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String:@options{ :
+@type:string;"ie9;i:@operand1o:!Sass::Script::Tree::Variable;@;i:@underscored_name"output_stylesheet_id;@:
+@name"output-stylesheet-id;o;	;@;o;;i;i#;o;;i;i;@;@;o;	;@;o;;i;i-;@;@0[o:Sass::Tree::ReturnNode
+;i;@:@children[ :
+@expro;
+	;@;i;o;	;@;o;;i;i=;o;;i;i9;@;o:Sass::Script::Value::Bool;@;T;o;	;@;o;;i;i=;o;;i;i1;@u;' [o:"Sass::Script::Tree::Operation:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@operator:eq:@operand2o: Sass::Script::Tree::Literal	;@:
+@linei:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i:@offseti2:@start_poso;;i;i':@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String:@options{ :
+@type:string;"standards;i:@operand1o:!Sass::Script::Tree::Variable;@;i:@underscored_name"output_stylesheet_id;@:
+@name"output-stylesheet-id;o;	;@;o;;i;i#;o;;i;i;@;@;o;	;@;o;;i;i3;@;@0[o:Sass::Tree::ReturnNode
+;i;@:@children[ :
+@expro;
+	;@;i;o;	;@;o;;i;iC;o;;i;i?;@;o:Sass::Script::Value::Bool;@;T;o;	;@;o;;i;iC;o;;i;i7;@o;*
+;i;	@;
+[ ;o;	;@;i;o;	;@;o;;i;i;o;;i;i;@;o;+;	@;F;o;	;@;o;;i;i;o;;i;i;@;""is-gte-ie9;,[ ;o;	;@;o;;i;i;o;;i;i;@o;(;T;i;)0;	@;
+[u;' [o:"Sass::Script::Tree::Operation:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@operator:eq:@operand2o: Sass::Script::Tree::Literal	;@:
+@linei:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i:@offseti2:@start_poso;;i;i':@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String:@options{ :
+@type:string;"standards;i:@operand1o:!Sass::Script::Tree::Variable;@;i:@underscored_name"output_stylesheet_id;@:
+@name"output-stylesheet-id;o;	;@;o;;i;i#;o;;i;i;@;@;o;	;@;o;;i;i3;@;@0[o:Sass::Tree::ReturnNode
+;i;@:@children[ :
+@expro;
+	;@;i;o;	;@;o;;i;iC;o;;i;i?;@;o:Sass::Script::Value::Bool;@;T;o;	;@;o;;i;iC;o;;i;i7;@o;*
+;i;	@;
+[ ;o;	;@;i;o;	;@;o;;i;i;o;;i;i;@;@F;o;	;@;o;;i;i;o;;i;i;@;""is-standards;,[ ;o;	;@;o;;i;i ;o;;i;i;@o;(;T;i;)0;	@;
+[u;'»[o:"Sass::Script::Tree::Operation:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@operator:eq:@operand2o: Sass::Script::Tree::Literal	;@:
+@linei:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i:@offseti0:@start_poso;;i;i':@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String:@options{ :
+@type:string;"lte-ie7;i:@operand1o:!Sass::Script::Tree::Variable;@;i:@underscored_name"output_stylesheet_id;@:
+@name"output-stylesheet-id;o;	;@;o;;i;i#;o;;i;i;@;@;o;	;@;o;;i;i1;@;@0[o:Sass::Tree::ReturnNode
+;i;@:@children[ :
+@expro;
+	;@;i;o;	;@;o;;i;iA;o;;i;i=;@;o:Sass::Script::Value::Bool;@;T;o;	;@;o;;i;iA;o;;i;i5;@o;*
+;i;	@;
+[ ;o;	;@;i;o;	;@;o;;i;i;o;;i;i;@;@F;o;	;@;o;;i;i;o;;i;i;@;""is-lte-ie7;,[ ;o;	;@;o;;i;i;o;;i;i;@o;(;T;i";)o:!Sass::Script::Tree::Variable;@;i":@underscored_name"p_list;	@;""p-list;o;	;@;o;;i";iJ;o;;i";iC;@;	@;
+[	o;;0;i#;0;	@;
+[ ;o;	;@;i#;o;	;@;o;;i#;i;o;;i#;i;@;o;;	@; ;!;" ;""p-new-list;o;	;@;o;;i#;i;o;;i#;i;@o;;0;i$;0;	@;
+[ ;o;	;@;i$;o;	;@;o;;i$;i;o;;i$;i;@;o;;	@; ;!;" ;""p-comma;o;	;@;o;;i$;i;o;;i$;i;@o:Sass::Tree::EachNode:
+@vars["p-item;T;i%;	@;
+[o;;0;i&;0;	@;
+[ ;o:"Sass::Script::Tree::Operation;@:@operator:	plus:@operand2o;	;@;i&;o;	;@;o;;i&;ib;o;;i&;i_;@;o;;	@; ;!;");i&:@operand1o;1;@;2;3;4o;-;@;i&;."p_item;	@;""p-item;o;	;@;o;;i&;i\;o;;i&;iU;@;i&;5o;1;@;2;3;4o;	;@;i&;o;	;@;o;;i&;iR;o;;i&;iO;@;o;;	@; ;!;"(;i&;5o;1;@;2;3;4o;-;@;i&;."p_function_name;	@;""p-function-name;o;	;@;o;;i&;iL;o;;i&;i<;@;i&;5o;1;@;2;3;4o;-;@;i&;."p_comma;	@;""p-comma;o;	;@;o;;i&;i9;o;;i&;i1;@;i&;5o;-;@;i&;."p_new_list;	@;""p-new-list;o;	;@;o;;i&;i.;o;;i&;i#;@;	@;o;	;@;o;;i&;i:;@∫;@;	@;o;	;@;o;;i&;iM;@∫;@;	@;o;	;@;o;;i&;iS;@∫;@;	@;o;	;@;o;;i&;i];@∫;@;	@;o;	;@;o;;i&;ib;@∫;@;""p-new-list;o;	;@;o;;i&;ib;o;;i&;i;@o;;0;i';0;	@;
+[ ;o;	;@;i';o;	;@;o;;i';i#;o;;i';i ;@;o;;	@; ;!;",;""p-comma;o;	;@;o;;i';i#;o;;i';i;@:
+@listo;-;@;i%;."p_list;	@;""p-list;o;	;@;o;;i%;i&;o;;i%;i;@;o;	;@;o;;i%;i';o;;i%;i;@o;*
+;i);	@;
+[ ;o;-;@;i);."p_new_list;	@;""p-new-list;o;	;@;o;;i);i!;o;;i);i;@;o;	;@;o;;i);i!;o;;i);i;@;""#internal-wrap-list-in-function;,[[o;-;@;i";."p_function_name;	@;""p-function-name;o;	;@;o;;i";iA;o;;i";i1;@0;o;	;@;o;;i";iP;o;;i";i;@o:Sass::Tree::MixinDefNode;T;i,;)o;-;@;i,;."p_value;	@;""p-value;o;	;@;o;;i,;iC;o;;i,;i;;@;	@;
+[
+o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;i-;i";o;;i-;i;@;i-:@prop_syntax:new:@name_source_rangeo;	;@;o;;i-;i;o;;i-;i;@;	@;
+[ ;"[o;-;@;i-;."p_prop;	@;""p-prop;o;	;@;o;;i-;i;o;;i-;i;@;o;	;@;@ˇ;@;@:
+@tabsi ;o;-;@;i-;."p_value;	@;""p-value;o;	;@;o;;i-;i";o;;i-;i;@o;8;9o;	;@;o;;i.;i*;o;;i.;i";@;i.;:;;;<o;	;@;o;;i.;i ;o;;i.;i;@;	@;
+[ ;"["-webkit-o;-;@;i.;."p_prop;	@;""p-prop;o;	;@;o;;i.;i;o;;i.;i;@;o;	;@;@;@;@;=i ;o;-;@;i.;."p_value;	@;""p-value;o;	;@;o;;i.;i*;o;;i.;i";@o;8;9o;	;@;o;;i/;i%;o;;i/;i;@;i/;:;;;<o;	;@;o;;i/;i;o;;i/;i;@;	@;
+[ ;"["-o-o;-;@;i/;."p_prop;	@;""p-prop;o;	;@;o;;i/;i;o;;i/;i;@;o;	;@;@,;@0;@;=i ;o;-;@;i/;."p_value;	@;""p-value;o;	;@;o;;i/;i%;o;;i/;i;@o;8;9o;	;@;o;;i0;i';o;;i0;i;@;i0;:;;;<o;	;@;o;;i0;i;o;;i0;i;@;	@;
+[ ;"["
+-moz-o;-;@;i0;."p_prop;	@;""p-prop;o;	;@;o;;i0;i;o;;i0;i;@;o;	;@;@C;@G;@;=i ;o;-;@;i0;."p_value;	@;""p-value;o;	;@;o;;i0;i';o;;i0;i;@o;8;9o;	;@;o;;i1;i&;o;;i1;i;@;i1;:;;;<o;	;@;o;;i1;i;o;;i1;i;@;	@;
+[ ;"["	-ms-o;-;@;i1;."p_prop;	@;""p-prop;o;	;@;o;;i1;i;o;;i1;i;@;o;	;@;@Z;@^;@;=i ;o;-;@;i1;."p_value;	@;""p-value;o;	;@;o;;i1;i&;o;;i1;i;@;""'internal-prefix-property-not-value;,[[o;-;@;i,;."p_prop;	@;""p-prop;o;	;@;o;;i,;i9;o;;i,;i2;@0;o;	;@;o;;i,;iI;o;;i,;i;@o;7;T;i4;)o;-;@;i4;."p_value;	@;""p-value;o;	;@;o;;i4;iC;o;;i4;i;;@;	@;
+[
+o;8;9o;	;@;o;;i5;i";o;;i5;i;@;i5;:;;;<o;	;@;o;;i5;i;o;;i5;i;@;	@;
+[ ;"[o;-;@;i5;."p_prop;	@;""p-prop;o;	;@;o;;i5;i;o;;i5;i;@;o;	;@;@Ö;@â;@;=i ;o;-;@;i5;."p_value;	@;""p-value;o;	;@;o;;i5;i";o;;i5;i;@o;8;9o;	;@;o;;i6;i5;o;;i6;i";@;i6;:;;;<o;	;@;o;;i6;i ;o;;i6;i;@;	@;
+[ ;"["-webkit-o;-;@;i6;."p_prop;	@;""p-prop;o;	;@;o;;i6;i;o;;i6;i;@;o;	;@;@õ;@ü;@;=i ;o:&Sass::Script::Tree::Interpolation:@originally_textF;@:	@mido;-;@;i6;."p_value;	@;""p-value;o;	;@;o;;i6;i4;o;;i6;i,;@;i6:@whitespace_after0:@beforeo;	;@;i6;o;	;@;o;;i6;i*;o;;i6;i";@;o;;	@; :identifier;"-webkit-;	@:@whitespace_before0:@after0;o;	;@;o;;i6;i5;@¥;@o;8;9o;	;@;o;;i7;i+;o;;i7;i;@;i7;:;;;<o;	;@;o;;i7;i;o;;i7;i;@;	@;
+[ ;"["-o-o;-;@;i7;."p_prop;	@;""p-prop;o;	;@;o;;i7;i;o;;i7;i;@;o;	;@;@ª;@ø;@;=i ;o;>;?F;@;@o;-;@;i7;."p_value;	@;""p-value;o;	;@;o;;i7;i*;o;;i7;i";@;i7;A0;Bo;	;@;i7;o;	;@;o;;i7;i ;o;;i7;i;@;o;;	@; ;C;"-o-;	@;D0;E0;o;	;@;o;;i7;i+;@‘;@o;8;9o;	;@;o;;i8;i/;o;;i8;i;@;i8;:;;;<o;	;@;o;;i8;i;o;;i8;i;@;	@;
+[ ;"["
+-moz-o;-;@;i8;."p_prop;	@;""p-prop;o;	;@;o;;i8;i;o;;i8;i;@;o;	;@;@€;@ﬂ;@;=i ;o;>;?F;@;@o;-;@;i8;."p_value;	@;""p-value;o;	;@;o;;i8;i.;o;;i8;i&;@;i8;A0;Bo;	;@;i8;o;	;@;o;;i8;i$;o;;i8;i;@;o;;	@; ;C;"
+-moz-;	@;D0;E0;o;	;@;o;;i8;i/;@Ù;@o;8;9o;	;@;o;;i9;i-;o;;i9;i;@;i9;:;;;<o;	;@;o;;i9;i;o;;i9;i;@;	@;
+[ ;"["	-ms-o;-;@;i9;."p_prop;	@;""p-prop;o;	;@;o;;i9;i;o;;i9;i;@;o;	;@;@˚;@ˇ;@;=i ;o;>;?F;@;@o;-;@;i9;."p_value;	@;""p-value;o;	;@;o;;i9;i,;o;;i9;i$;@;i9;A0;Bo;	;@;i9;o;	;@;o;;i9;i";o;;i9;i;@;o;;	@; ;C;"	-ms-;	@;D0;E0;o;	;@;o;;i9;i-;@;@;""'internal-prefix-property-and-value;,[[o;-;@;i4;."p_prop;	@;""p-prop;o;	;@;o;;i4;i9;o;;i4;i2;@0;o;	;@;o;;i4;iI;o;;i4;i;@o;7;T;i<;)0;	@;
+[o;8;9o;	;@;o;;i=;i";o;;i=;i;@;i=;:;;;<o;	;@;o;;i=;i;o;;i=;i;@;	@;
+[ ;"["list-style;o;	;@;@);@-;@;=i ;o;;i=;o;	;@;o;;i=;i";o;;i=;i;@;o;;	@; ;C;"outside circleo;8;9o;	;@;o;;i=;i7;o;;i=;i2;@;i=;:;;;<o;	;@;o;;i=;i0;o;;i=;i$;@;	@;
+[ ;"["padding-left;o;	;@;@:;@>;@;=i ;o;;i=;o;	;@;o;;i=;i7;o;;i=;i2;@;o;;	@; ;C;"
+2.5emo:Sass::Tree::RuleNode;T:@selector_source_rangeo;	;@;o;;i>;i;o;;i>;i;@;i>:@parsed_ruleso:"Sass::Selector::CommaSequence;" :@members[o:Sass::Selector::Sequence;J[o:#Sass::Selector::SimpleSequence:@subject0;@N;J[o:Sass::Selector::Parent;@N;i>:@suffix[ ;i>:@sourceso;;{ ;o;	;@N;o;;i;i;o;;i;i;0">o;L;M0;@N;J[o:Sass::Selector::Element	;@N;i>;"["li:@namespace0;i>;Po;;{ ;o;	;@N;o;;i;i;o;;i;i
+;0;i>:
+@rule["& > li;	@;
+[o;8;9o;	;@;o;;i?;i;o;;i?;i;@;i?;:;;;<o;	;@;o;;i?;i;o;;i?;i
+;@;	@;
+[ ;"["display;o;	;@;@k;@o;@;=i ;o;;i?;o;	;@;o;;i?;i;o;;i?;i;@;o;;	@; ;C;"list-item;o;	;@;o;;i>;i;o;;i>;i;@;=i ;""copy-bulleted-list;,[ ;o;	;@;o;;i<;i ;o;;i<;i;@o;7;T;iC;)0;	@;
+[o;8;9o;	;@;o;;iD;i#;o;;iD;i;@;iD;:;;;<o;	;@;o;;iD;i;o;;iD;i;@;	@;
+[ ;"["list-style;o;	;@;@Ü;@ä;@;=i ;o;;iD;o;	;@;o;;iD;i#;o;;iD;i;@;o;;	@; ;C;"outside decimalo;8;9o;	;@;o;;iD;i8;o;;iD;i3;@;iD;:;;;<o;	;@;o;;iD;i1;o;;iD;i%;@;	@;
+[ ;"["padding-left;o;	;@;@ó;@õ;@;=i ;o;;iD;o;	;@;o;;iD;i8;o;;iD;i3;@;o;;	@; ;C;"
+2.5emo;F;T;Go;	;@;o;;iE;i;o;;iE;i;@;iE;Ho;I;" ;J[o;K;J[o;L;M0;@´;J[o;N;@´;iE;O[ ;iE;Po;;{ ;o;	;@´;o;;i;i;o;;i;i;0">o;L;M0;@´;J[o;Q	;@´;iE;"["li;R0;iE;Po;;{ ;o;	;@´;o;;i;i;o;;i;i
+;0;iE;S["& > li;	@;
+[o;8;9o;	;@;o;;iF;i;o;;iF;i;@;iF;:;;;<o;	;@;o;;iF;i;o;;iF;i
+;@;	@;
+[ ;"["display;o;	;@;@»;@Ã;@;=i ;o;;iF;o;	;@;o;;iF;i;o;;iF;i;@;o;;	@; ;C;"list-item;o;	;@;o;;iE;i;o;;iE;i;@;=i ;""copy-numbered-list;,[ ;o;	;@;o;;iC;i ;o;;iC;i;@o;7;T;iJ;)0;	@;
+[u;'∆[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineiK:@splat0:@options{ :@kwarg_splat0:
+@name"is-gte-ie8:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;iK:@offseti:@start_poso;;iK;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5u:Sass::Tree::IfNode∞[00[o:Sass::Tree::PropNode:@value_source_rangeo:Sass::Source::Range	:
+@file"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@end_poso:Sass::Source::Position:
+@lineiR:@offseti:@start_poso;
+;iR;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5;iR:@prop_syntax:new:@name_source_rangeo;	;@	;	o;
+;iR;i;o;
+;iR;i;@:@options{ :@children[ :
+@name["	zoom:@source_rangeo;	;@	;	@
+;@;@:
+@tabsi :@valueo: Sass::Script::Tree::Literal;iR;o;	;@	;	o;
+;iR;i;o;
+;iR;i;@;o: Sass::Script::Value::String;@:
+@type:identifier;"1o; ;o;	;@	;	o;
+;iR;i*;o;
+;iR;i&;@;iR;;;o;	;@	;	o;
+;iR;i$;o;
+;iR;i;@;@;[ ;["
+clear;o;	;@	;	@ ;@$;@;i ;o;;iR;o;	;@	;	o;
+;iR;i*;o;
+;iR;i&;@;o;;@;; ;"	both[o:Sass::Tree::RuleNode:@has_childrenT:@selector_source_rangeo;	;@;o;;iL;i";o;;iL;i;@;iL:@parsed_ruleso:"Sass::Selector::CommaSequence;" :@members[o:Sass::Selector::Sequence;&[o:#Sass::Selector::SimpleSequence:@subject0;@;&[o:Sass::Selector::Parent;@;iL:@suffix[ o:Sass::Selector::Pseudo
+;@;iL:	@arg0;["
+after:@syntactic_type:
+class;iL:@sourceso;;{ ;o;	;@;o;;i;i;o;;i;i;0o;';&[o;(;)0;@;&[o;*;@;iL;+[ o;,
+;@;iL;-0;["before;.;/;iL;0o;;{ ;o;	;@;o;;i;i;o;;i;i;0;iL:
+@rule["&:after, &:before;	@:@children[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;iM;i#;o;;iM;i!;@;iM:@prop_syntax:new:@name_source_rangeo;	;@;o;;iM;i;o;;iM;i;@;	@;2[ ;["content;o;	;@;@@;@D;@:
+@tabsi :@valueo: Sass::Script::Tree::Literal;iM;o;	;@;o;;iM;i#;o;;iM;i!;@;9o: Sass::Script::Value::String;	@:
+@type:identifier;9"""o;3;4o;	;@;o;;iN;i&;o;;iN;i!;@;iN;5;6;7o;	;@;o;;iN;i;o;;iN;i;@;	@;2[ ;["display;o;	;@;@Q;@U;@;8i ;9o;:;iN;o;	;@;o;;iN;i&;o;;iN;i!;@;9o;;;	@;<;=;9"
+tableo;3;4o;	;@;o;;iO;i#;o;;iO;i;@;iO;5;6;7o;	;@;o;;iO;i;o;;iO;i;@;	@;2[ ;["
+clear;o;	;@;@b;@f;@;8i ;9o;:;iO;o;	;@;o;;iO;i#;o;;iO;i;@;9o;;;	@;<;=;9"	both;o;	;@;o;;iL;i";o;;iL;i;@;8i ;""
+clear;,[ ;o;	;@;o;;iJ;i;o;;iJ;i;@o;7;T;iV;)0;	@;
+[u;'ï[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineiW:@splat0:@options{ :@kwarg_splat0:
+@name"is-gte-ie8:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;iW:@offseti:@start_poso;;iW;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;iX;i-;o;;iX;i%;@;iX:@prop_syntax:new:@name_source_rangeo;	;@;o;;iX;i#;o;;iX;i;@;	@:@children[ ;["border-radius;o;	;@;@;@;@:
+@tabsi :@valueo:!Sass::Script::Tree::Variable;@;iX:@underscored_name"p_value;	@;"p-value;o;	;@;o;;iX;i-;o;;iX;i%;@o; ;!o;	;@;o;;iY;i5;o;;iY;i-;@;iY;";#;$o;	;@;o;;iY;i+;o;;iY;i;@;	@;%[ ;["-webkit-border-radius;o;	;@;@*;@.;@;&i ;'o;(;@;iY;)"p_value;	@;"p-value;o;	;@;o;;iY;i5;o;;iY;i-;@o; ;!o;	;@;o;;iZ;i2;o;;iZ;i*;@;iZ;";#;$o;	;@;o;;iZ;i(;o;;iZ;i;@;	@;%[ ;["-moz-border-radius;o;	;@;@;;@?;@;&i ;'o;(;@;iZ;)"p_value;	@;"p-value;o;	;@;o;;iZ;i2;o;;iZ;i*;@;""border-radius;,[[o;-;@;iV;."p_value;	@;""p-value;o;	;@;o;;iV;i%;o;;iV;i;@0;o;	;@;o;;iV;i(;o;;iV;i;@o;7;T;i^;)o;-;@;i^;."p_value;	@;""p-value;o;	;@;o;;i^;i";o;;i^;i;@;	@;
+[u;'[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@linei_:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i_:@offseti:@start_poso;;i_;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::MixinNode;i`;0;	@:@children[ ;
+0;"'internal-prefix-property-not-value;[o: Sass::Script::Tree::Literal	;@;i`;o;	;@;o;;i`;iB;o;;i`;i8;@:@valueo: Sass::Script::Value::String;	@:
+@type:identifier;#"transitiono:!Sass::Script::Tree::Variable;@;i`:@underscored_name"p_value;	@;"p-value;o;	;@;o;;i`;iL;o;;i`;iD;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;i`;iN;o;;i`;i
+;@;""transition;,[ ;o;	;@;o;;i^;i(;o;;i^;i;@o;7;T;id;)0;	@;
+[u;'[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineie:@splat0:@options{ :@kwarg_splat0:
+@name"is-gte-ie9:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;ie:@offseti:@start_poso;;ie;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::MixinNode;if;0;	@:@children[ ;
+0;"'internal-prefix-property-not-value;[o: Sass::Script::Tree::Literal	;@;if;o;	;@;o;;if;iG;o;;if;i>;@:@valueo: Sass::Script::Value::String;	@:
+@type:identifier;#"transformo:!Sass::Script::Tree::Variable;@;if:@underscored_name"p_value;	@;"p-value;o;	;@;o;;if;iQ;o;;if;iI;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;if;iS;o;;if;i;@;""transform;,[[o;-;@;id;."p_value;	@;""p-value;o;	;@;o;;id;i!;o;;id;i;@0;o;	;@;o;;id;i$;o;;id;i;@o;7;T;ij;)0;	@;
+[o:Sass::Tree::MixinNode;ik;)0;	@;
+[ :@kwarg_splat0;""'internal-prefix-property-not-value;,[o;	;@;ik;o;	;@;o;;ik;iF;o;;ik;i6;@;o;;	@; ;C;"transform-origino;-;@;ik;."p_value;	@;""p-value;o;	;@;o;;ik;iP;o;;ik;iH;@:@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ ;o;	;@;o;;ik;iR;o;;ik;i;@;""transform-origin;,[[o;-;@;ij;."p_value;	@;""p-value;o;	;@;o;;ij;i(;o;;ij;i ;@0;o;	;@;o;;ij;i+;o;;ij;i;@o;7;T;in;)o;-;@;in;."p_value;	@;""p-value;o;	;@;o;;in;i!;o;;in;i;@;	@;
+[u;'ã[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineio:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;io:@offseti:@start_poso;;io;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;ip;i#;o;;ip;i;@;ip:@prop_syntax:new:@name_source_rangeo;	;@;o;;ip;i;o;;ip;i;@;	@:@children[ ;["animation;o;	;@;@;@;@:
+@tabsi :@valueo:!Sass::Script::Tree::Variable;@;ip:@underscored_name"p_value;	@;"p-value;o;	;@;o;;ip;i#;o;;ip;i;@o; ;!o;	;@;o;;iq;i+;o;;iq;i#;@;iq;";#;$o;	;@;o;;iq;i!;o;;iq;i;@;	@;%[ ;["-webkit-animation;o;	;@;@*;@.;@;&i ;'o;(;@;iq;)"p_value;	@;"p-value;o;	;@;o;;iq;i+;o;;iq;i#;@o; ;!o;	;@;o;;ir;i(;o;;ir;i ;@;ir;";#;$o;	;@;o;;ir;i;o;;ir;i;@;	@;%[ ;["-moz-animation;o;	;@;@;;@?;@;&i ;'o;(;@;ir;)"p_value;	@;"p-value;o;	;@;o;;ir;i(;o;;ir;i ;@;""animation;,[ ;o;	;@;o;;in;i';o;;in;i;@o;7;T;iv;)o;-;@;iv;."p_value;	@;""p-value;o;	;@;o;;iv;i+;o;;iv;i#;@;	@;
+[u;'[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineiw:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;iw:@offseti:@start_poso;;iw;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::MixinNode;ix;0;	@:@children[ ;
+0;"'internal-prefix-property-not-value;[o: Sass::Script::Tree::Literal	;@;ix;o;	;@;o;;ix;iQ;o;;ix;i>;@:@valueo: Sass::Script::Value::String;	@:
+@type:identifier;#"transition-propertyo:!Sass::Script::Tree::Variable;@;ix:@underscored_name"p_value;	@;"p-value;o;	;@;o;;ix;i[;o;;ix;iS;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;ix;i];o;;ix;i;@;""transition-property;,[ ;o;	;@;o;;iv;i1;o;;iv;i;@o;7;T;i|;)o;-;@;i|;."p_value;	@;""p-value;o;	;@;o;;i|;i2;o;;i|;i*;@;	@;
+[u;'[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@linei}:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i}:@offseti:@start_poso;;i};i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::MixinNode;i~;0;	@:@children[ ;
+0;"'internal-prefix-property-not-value;[o: Sass::Script::Tree::Literal	;@;i~;o;	;@;o;;i~;iX;o;;i~;i>;@:@valueo: Sass::Script::Value::String;	@:
+@type:identifier;#"transition-timing-functiono:!Sass::Script::Tree::Variable;@;i~:@underscored_name"p_value;	@;"p-value;o;	;@;o;;i~;ib;o;;i~;iZ;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;i~;id;o;;i~;i;@;""transition-timing-function;,[ ;o;	;@;o;;i|;i8;o;;i|;i;@o;7;T;i};)o;-;@;i};."p_value;	@;""p-value;o;	;@;o;;i};i(;o;;i};i ;@;	@;
+[u;'[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@linei~:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i~:@offseti:@start_poso;;i~;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::MixinNode;i;0;	@:@children[ ;
+0;"'internal-prefix-property-not-value;[o: Sass::Script::Tree::Literal	;@;i;o;	;@;o;;i;iN;o;;i;i>;@:@valueo: Sass::Script::Value::String;	@:
+@type:identifier;#"transition-delayo:!Sass::Script::Tree::Variable;@;i:@underscored_name"p_value;	@;"p-value;o;	;@;o;;i;iX;o;;i;iP;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;i;iZ;o;;i;i;@;""transition-delay;,[ ;o;	;@;o;;i};i.;o;;i};i;@o;7;T;iÉ;)o;-;@;iÉ;."p_value;	@;""p-value;o;	;@;o;;iÉ;i+;o;;iÉ;i#;@;	@;
+[u;'[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineiÑ:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;iÑ:@offseti:@start_poso;;iÑ;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::MixinNode;iÖ;0;	@:@children[ ;
+0;"'internal-prefix-property-not-value;[o: Sass::Script::Tree::Literal	;@;iÖ;o;	;@;o;;iÖ;iQ;o;;iÖ;i>;@:@valueo: Sass::Script::Value::String;	@:
+@type:identifier;#"transition-durationo:!Sass::Script::Tree::Variable;@;iÖ:@underscored_name"p_value;	@;"p-value;o;	;@;o;;iÖ;i[;o;;iÖ;iS;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;iÖ;i];o;;iÖ;i;@;""transition-duration;,[ ;o;	;@;o;;iÉ;i1;o;;iÉ;i;@o;7;T;iâ;)o;-;@;iâ;."p_more;	@;""p-more;o;	;@;o;;iâ;i8;o;;iâ;i1;@;	@;
+[u;'k[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineiä:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;iä:@offseti:@start_poso;;iä;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::MixinNode;iã;o:!Sass::Script::Tree::Variable;@;iã:@underscored_name"p_more;	@;"p-more;o;	;@;o;;iã;ie;o;;iã;i^;@;	@:@children[ ;
+0;"'internal-prefix-property-and-value;[o: Sass::Script::Tree::Literal	;@;iã;o;	;@;o;;iã;iQ;o;;iã;i>;@:@valueo: Sass::Script::Value::String;	@:
+@type:identifier;%"transition-propertyo;$	;@;iã;o;	;@;o;;iã;i\;o;;iã;iS;@;%o;&;	@;';(;%"transform;o;;IC;{ ;[ ;{ ;o;	;@;o;;iã;ij;o;;iã;i;@;""&transition-property-transform-and;,[ ;o;	;@;o;;iâ;i>;o;;iâ;i;@o;;0;iè;0;	@;
+[ ;o;	;@;iè;o;	;@;o;;iè;i%;o;;iè;i#;@;o;;	@; ;!;" ;""background-before-gradient;o;	;@;o;;iè;i%;o;;iè;i;@o;;0;iê;0;	@;
+[ ;o;	;@;iê;o;	;@;o;;iê;i$;o;;iê;i";@;o;;	@; ;!;" ;""background-after-gradient;o;	;@;o;;iê;i$;o;;iê;i;@o;7;T;ií;)o;-;@;ií;."p_stops;	@;""p-stops;o;	;@;o;;ií;iB;o;;ií;i:;@;	@;
+[o;;0;iì;0;	@;
+[ ;o: Sass::Script::Tree::Funcall;@;iì;)o;-;@;iì;."p_stops;	@;""p-stops;o;	;@;o;;iì;iV;o;;iì;iN;@;	@;U0;""#internal-wrap-list-in-function;,[o;	;@;iì;o;	;@;o;;iì;iL;o;;iì;i@;@;o;;	@; ;!;"color-stop;Vo;W;XIC;Y{ ;Z[ ;[{ ;o;	;@;o;;iì;i[;o;;iì;i ;@;""p-wrapped-stops;o;	;@;o;;iì;i[;o;;iì;i;@o;;0;iî;0;	@;
+[ ;o;	;@;iî;o;	;@;o;;iî;i';o;;iî;i;@;o;;	@; ;!;"left top;""p-alt-term-a;o;	;@;o;;iî;i';o;;iî;i;@o;;0;iï;0;	@;
+[ ;o;	;@;iï;o;	;@;o;;iï;i*;o;;iï;i;@;o;;	@; ;!;"left bottom;""p-alt-term-b;o;	;@;o;;iï;i*;o;;iï;i;@o;;0;iñ;0;	@;
+[ ;o;	;@;iñ;o;	;@;o;;iñ;i#;o;;iñ;i;@;o;;	@; ;!;"bottom;""p-end-term;o;	;@;o;;iñ;i#;o;;iñ;i;@u;'4[o:"Sass::Script::Tree::Operation:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@operator:eq:@operand2o: Sass::Script::Tree::Literal	;@:
+@lineió:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;ió:@offseti):@start_poso;;ió;i%:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String:@options{ :
+@type:identifier;"	left;ió:@operand1o:!Sass::Script::Tree::Variable;@;ió:@underscored_name"p_start_term;@:
+@name"p-start-term;o;	;@;o;;ió;i!;o;;ió;i;@;@;o;	;@;o;;ió;i*;@;@0[o:Sass::Tree::VariableNode:@global0;iò:@guarded0;@:@children[ :
+@expro;
+	;@;iò;o;	;@;o;;iò;i/;o;;iò;i%;@;o;;@;:string;"left top;!"p-alt-term-a;o;	;@;o;;iò;i/;o;;iò;i;@o;";#0;iô;$0;@;%[ ;&o;
+	;@;iô;o;	;@;o;;iô;i0;o;;iô;i%;@;o;;@;;';"right top;!"p-alt-term-b;o;	;@;o;;iô;i0;o;;iô;i;@o;";#0;iö;$0;@;%[ ;&o;
+	;@;iö;o;	;@;o;;iö;i*;o;;iö;i#;@;o;;@;;';"
+right;!"p-end-term;o;	;@;o;;iö;i*;o;;iö;i;@u;'Ä[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineiú:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;iú:@offseti:@start_poso;;iú;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;iù;iç;o;;iù;i(;@;iù:@prop_syntax:new:@name_source_rangeo;	;@;o;;iù;i&;o;;iù;i;@;	@:@children[ ;["background-image;o;	;@;@;@;@:
+@tabsi :@valueo:&Sass::Script::Tree::Interpolation:@originally_textF;@:	@mido:!Sass::Script::Tree::Variable;@;iù:@underscored_name"background_after_gradient;	@;"background-after-gradient;o;	;@;o;;iù;iå;o;;iù;iw;@;iù:@whitespace_after0:@beforeo;(;)F;@;*o;+;@;iù;,"background_before_gradient;	@;"background-before-gradient;o;	;@;o;;iù;iE;o;;iù;i*;@;iù;-i ;.0;	@:@whitespace_beforei—:@aftero; ;@;iù;0;	@;
+0;"-moz-linear-gradient;[o;+;@;iù;,"p_start_term;	@;"p-start-term;o;	;@;o;;iù;ii;o;;iù;i\;@o;+;@;iù;,"p_stops;	@;"p-stops;o;	;@;o;;iù;is;o;;iù;ik;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;iù;it;o;;iù;iG;@;o;	;@;o;;iù;iu;@/;@;	@;/i;00;o;	;@;o;;iù;iç;@/;@o; ;!o;	;@;o;;iû;i≤;o;;iû;i(;@;iû;";#;$o;	;@;o;;iû;i&;o;;iû;i;@;	@;%[ ;["background-image;o;	;@;@L;@P;@;&i ;'o;(;)F;@;*o;+;@;iû;,"background_after_gradient;	@;"background-after-gradient;o;	;@;o;;iû;i±;o;;iû;ió;@;iû;-0;.o;(;)F;@;*o;+;@;iû;,"background_before_gradient;	@;"background-before-gradient;o;	;@;o;;iû;iE;o;;iû;i*;@;iû;-i ;.0;	@;/i_;0o; ;@;iû;0;	@;
+0;"-webkit-gradient;[	o: Sass::Script::Tree::Literal	;@;iû;o;	;@;o;;iû;i^;o;;iû;iX;@;'o: Sass::Script::Value::String;	@:
+@type:identifier;'"linearo;(;)F;@;*o;+;@;iû;,"p_alt_term_a;	@;"p-alt-term-a;o;	;@;o;;iû;io;o;;iû;ib;@;iû;-0;.0;	@;/ió;00;o;	;@;o;;iû;ip;@r;@o;(;)F;@;*o;+;@;iû;,"p_alt_term_b;	@;"p-alt-term-b;o;	;@;o;;iû;i|;o;;iû;it;@;iû;-0;.0;	@;/i©;00;o;	;@;o;;iû;i};@{;@o;(;)F;@;*o;+;@;iû;,"p_wrapped_stops;	@;"p-wrapped-stops;o;	;@;o;;iû;ië;o;;iû;iÅ;@;iû;-i ;.0;	@;/iª;00;o;	;@;o;;iû;iì;@;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;iû;iî;o;;iû;iG;@;o;	;@;o;;iû;iï;@b;@;	@;/i—;00;o;	;@;o;;iû;i≤;@b;@o; ;!o;	;@;o;;iü;iê;o;;iü;i(;@;iü;";#;$o;	;@;o;;iü;i&;o;;iü;i;@;	@;%[ ;["background-image;o;	;@;@è;@ì;@;&i ;'o;(;)F;@;*o;+;@;iü;,"background_after_gradient;	@;"background-after-gradient;o;	;@;o;;iü;iè;o;;iü;iz;@;iü;-0;.o;(;)F;@;*o;+;@;iü;,"background_before_gradient;	@;"background-before-gradient;o;	;@;o;;iü;iE;o;;iü;i*;@;iü;-i ;.0;	@;/i;0o; ;@;iü;0;	@;
+0;"-webkit-linear-gradient;[o;+;@;iü;,"p_start_term;	@;"p-start-term;o;	;@;o;;iü;il;o;;iü;i_;@o;+;@;iü;,"p_stops;	@;"p-stops;o;	;@;o;;iü;iv;o;;iü;in;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;iü;iw;o;;iü;iG;@;o;	;@;o;;iü;ix;@•;@;	@;/ib;00;o;	;@;o;;iü;iê;@•;@o; ;!o;	;@;o;;i†;iã;o;;i†;i(;@;i†;";#;$o;	;@;o;;i†;i&;o;;i†;i;@;	@;%[ ;["background-image;o;	;@;@¬;@∆;@;&i ;'o;(;)F;@;*o;+;@;i†;,"background_after_gradient;	@;"background-after-gradient;o;	;@;o;;i†;iä;o;;i†;iu;@;i†;-0;.o;(;)F;@;*o;+;@;i†;,"background_before_gradient;	@;"background-before-gradient;o;	;@;o;;i†;iE;o;;i†;i*;@;i†;-i ;.0;	@;/i£;0o; ;@;i†;0;	@;
+0;"-o-linear-gradient;[o;+;@;i†;,"p_start_term;	@;"p-start-term;o;	;@;o;;i†;ig;o;;i†;iZ;@o;+;@;i†;,"p_stops;	@;"p-stops;o;	;@;o;;i†;iq;o;;i†;ii;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;i†;ir;o;;i†;iG;@;o;	;@;o;;i†;is;@ÿ;@;	@;/iÓ;00;o;	;@;o;;i†;iã;@ÿ;@o; ;!o;	;@;o;;i°;iå;o;;i°;i(;@;i°;";#;$o;	;@;o;;i°;i&;o;;i°;i;@;	@;%[ ;["background-image;o;	;@;@ı;@˘;@;&i ;'o;(;)F;@;*o;+;@;i°;,"background_after_gradient;	@;"background-after-gradient;o;	;@;o;;i°;iã;o;;i°;iv;@;i°;-0;.o;(;)F;@;*o;+;@;i°;,"background_before_gradient;	@;"background-before-gradient;o;	;@;o;;i°;iE;o;;i°;i*;@;i°;-i ;.0;	@;/i/;0o; ;@;i°;0;	@;
+0;"-ms-linear-gradient;[o;+;@;i°;,"p_start_term;	@;"p-start-term;o;	;@;o;;i°;ih;o;;i°;i[;@o;+;@;i°;,"p_stops;	@;"p-stops;o;	;@;o;;i°;ir;o;;i°;ij;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;i°;is;o;;i°;iG;@;o;	;@;o;;i°;it;@;@;	@;/i{;00;o;	;@;o;;i°;iå;@;@o; ;!o;	;@;o;;i¢;iâ;o;;i¢;i(;@;i¢;";#;$o;	;@;o;;i¢;i&;o;;i¢;i;@;	@;%[ ;["background-image;o;	;@;@(;@,;@;&i ;'o;(;)F;@;*o;+;@;i¢;,"background_after_gradient;	@;"background-after-gradient;o;	;@;o;;i¢;ià;o;;i¢;is;@;i¢;-0;.o;(;)F;@;*o;+;@;i¢;,"background_before_gradient;	@;"background-before-gradient;o;	;@;o;;i¢;iE;o;;i¢;i*;@;i¢;-i ;.0;	@;/iº;0o; ;@;i¢;0;	@;
+0;"linear-gradient;[o:$Sass::Script::Tree::ListLiteral;@;i¢:@separator:
+space;	@:@elements[o;1	;@;i¢;o;	;@;o;;i¢;iY;o;;i¢;iW;@;'o;2;	@;3;4;'"too;+;@;i¢;,"p_end_term;	@;"p-end-term;o;	;@;o;;i¢;ie;o;;i¢;iZ;@;o;	;@;o;;i¢;ie;o;;i¢;iW;@o;+;@;i¢;,"p_stops;	@;"p-stops;o;	;@;o;;i¢;io;o;;i¢;ig;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;i¢;ip;o;;i¢;iG;@;o;	;@;o;;i¢;iq;@>;@;	@;/i;00;o;	;@;o;;i¢;iâ;@>;@;"" directional-linear-gradient;,[[o;-;@;ií;."p_start_term;	@;""p-start-term;o;	;@;o;;ií;i8;o;;ií;i+;@0;o;	;@;o;;ií;iH;o;;ií;i;@o;7;T;i¶;)o;-;@;i¶;."p_stops;	@;""p-stops;o;	;@;o;;i¶;i9;o;;i¶;i1;@;	@;
+[o;;0;iß;0;	@;
+[ ;o;-;@;iß;."p_angle;	@;""p-angle;o;	;@;o;;iß;i(;o;;iß;i ;@;""p-wrapped-angle;o;	;@;o;;iß;i(;o;;iß;i;@o;;0;i®;0;	@;
+[ ;o;	;@;i®;o;	;@;o;;i®;i(;o;;i®;i;@;o;;	@; ;!;"right top;""p-alt-term-a;o;	;@;o;;i®;i(;o;;i®;i;@o;;0;i©;0;	@;
+[ ;o;	;@;i©;o;	;@;o;;i©;i*;o;;i©;i;@;o;;	@; ;!;"left bottom;""p-alt-term-b;o;	;@;o;;i©;i*;o;;i©;i;@u;'+[o:"Sass::Script::Tree::Operation:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@operator:lt:@operand2o: Sass::Script::Tree::Literal	;@:
+@linei™:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i™:@offseti(:@start_poso;;i™;i':@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::Number
+:@original"0:@denominator_units[ :@options{ :@numerator_units[ ;i ;i™:@operand1o:!Sass::Script::Tree::Variable;@;i™:@underscored_name"p_wrapped_angle;@:
+@name"p-wrapped-angle;o;	;@;o;;i™;i$;o;;i™;i;@;@;o;	;@;o;;i™;i);@;@0[o:Sass::Tree::VariableNode:@global0;i´:@guarded0;@:@children[ :
+@expro; ;@;:	plus;	o;
+	;@;i´;o;	;@;o;;i´;i>;o;;i´;i;;@;o;
+;"180;@;@;[ ;i¥;i´;o; ;@;i´;!"p_wrapped_angle;@;""p-wrapped-angle;o;	;@;o;;i´;i8;o;;i´;i(;@;@;o;	;@;o;;i´;i>;@-;@;""p-wrapped-angle;o;	;@;o;;i´;i>;o;;i´;i;@o;#;$0;i¨;%0;@;&[ ;'o;
+	;@;i¨;o;	;@;o;;i¨;i/;o;;i¨;i%;@;o: Sass::Script::Value::String;@:
+@type:string;"left top;""p-alt-term-a;o;	;@;o;;i¨;i/;o;;i¨;i;@o;#;$0;i≠;%0;@;&[ ;'o;
+	;@;i≠;o;	;@;o;;i≠;i3;o;;i≠;i%;@;o;);@;*;+;"right bottom;""p-alt-term-b;o;	;@;o;;i≠;i3;o;;i≠;i;@o;;0;iØ;0;	@;
+[ ;o;\;@;iØ;)o;-;@;iØ;."p_stops;	@;""p-stops;o;	;@;o;;iØ;iV;o;;iØ;iN;@;	@;U0;""#internal-wrap-list-in-function;,[o;	;@;iØ;o;	;@;o;;iØ;iL;o;;iØ;i@;@;o;;	@; ;!;"color-stop;Vo;W;XIC;Y{ ;Z[ ;[{ ;o;	;@;o;;iØ;i[;o;;iØ;i ;@;""p-wrapped-stops;o;	;@;o;;iØ;i[;o;;iØ;i;@u;'a[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@linei∞:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i∞:@offseti:@start_poso;;i∞;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;i±;iV;o;;i±;i(;@;i±:@prop_syntax:new:@name_source_rangeo;	;@;o;;i±;i&;o;;i±;i;@;	@:@children[ ;["background-image;o;	;@;@;@;@:
+@tabsi :@valueo; ;@;i±;0;	@;
+0;"-moz-linear-gradient;[o:&Sass::Script::Tree::Interpolation:@originally_textF;@:	@mido:!Sass::Script::Tree::Variable;@;i±:@underscored_name"p_angle;	@;"p-angle;o;	;@;o;;i±;iG;o;;i±;i?;@;i±:@whitespace_after0:@before0;	@:@whitespace_before0:@aftero: Sass::Script::Tree::Literal	;@;i±;o;	;@;o;;i±;iK;o;;i±;iH;@;'o: Sass::Script::Value::String;	@:
+@type:identifier;'"deg;o;	;@;o;;i±;iK;@+;@o;+;@;i±;,"p_stops;	@;"p-stops;o;	;@;o;;i±;iU;o;;i±;iM;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;i±;iV;o;;i±;i(;@o; ;!o;	;@;o;;i≤;iz;o;;i≤;i(;@;i≤;";#;$o;	;@;o;;i≤;i&;o;;i≤;i;@;	@;%[ ;["background-image;o;	;@;@C;@G;@;&i ;'o; ;@;i≤;0;	@;
+0;"-webkit-gradient;[	o;1	;@;i≤;o;	;@;o;;i≤;i?;o;;i≤;i9;@;'o;2;	@;3;4;'"linearo;(;)F;@;*o;+;@;i≤;,"p_alt_term_a;	@;"p-alt-term-a;o;	;@;o;;i≤;iP;o;;i≤;iC;@;i≤;-0;.0;	@;/iû;00;o;	;@;o;;i≤;iQ;@[;@o;(;)F;@;*o;+;@;i≤;,"p_alt_term_b;	@;"p-alt-term-b;o;	;@;o;;i≤;ib;o;;i≤;iU;@;i≤;-0;.0;	@;/i∞;00;o;	;@;o;;i≤;ic;@d;@o;(;)F;@;*o;+;@;i≤;,"p_wrapped_stops;	@;"p-wrapped-stops;o;	;@;o;;i≤;iw;o;;i≤;ig;@;i≤;-i ;.0;	@;/i¬;00;o;	;@;o;;i≤;iy;@m;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;i≤;iz;o;;i≤;i(;@o; ;!o;	;@;o;;i≥;iY;o;;i≥;i(;@;i≥;";#;$o;	;@;o;;i≥;i&;o;;i≥;i;@;	@;%[ ;["background-image;o;	;@;@y;@};@;&i ;'o; ;@;i≥;0;	@;
+0;"-webkit-linear-gradient;[o;(;)F;@;*o;+;@;i≥;,"p_angle;	@;"p-angle;o;	;@;o;;i≥;iJ;o;;i≥;iB;@;i≥;-0;.0;	@;/0;0o;1	;@;i≥;o;	;@;o;;i≥;iN;o;;i≥;iK;@;'o;2;	@;3;4;'"deg;o;	;@;o;;i≥;iN;@Ü;@o;+;@;i≥;,"p_stops;	@;"p-stops;o;	;@;o;;i≥;iX;o;;i≥;iP;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;i≥;iY;o;;i≥;i(;@o; ;!o;	;@;o;;i¥;iT;o;;i¥;i(;@;i¥;";#;$o;	;@;o;;i¥;i&;o;;i¥;i;@;	@;%[ ;["background-image;o;	;@;@û;@¢;@;&i ;'o; ;@;i¥;0;	@;
+0;"-o-linear-gradient;[o;(;)F;@;*o;+;@;i¥;,"p_angle;	@;"p-angle;o;	;@;o;;i¥;iE;o;;i¥;i=;@;i¥;-0;.0;	@;/0;0o;1	;@;i¥;o;	;@;o;;i¥;iI;o;;i¥;iF;@;'o;2;	@;3;4;'"deg;o;	;@;o;;i¥;iI;@∞;@o;+;@;i¥;,"p_stops;	@;"p-stops;o;	;@;o;;i¥;iS;o;;i¥;iK;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;i¥;iT;o;;i¥;i(;@o; ;!o;	;@;o;;iµ;iU;o;;iµ;i(;@;iµ;";#;$o;	;@;o;;iµ;i&;o;;iµ;i;@;	@;%[ ;["background-image;o;	;@;@»;@Ã;@;&i ;'o; ;@;iµ;0;	@;
+0;"-ms-linear-gradient;[o;(;)F;@;*o;+;@;iµ;,"p_angle;	@;"p-angle;o;	;@;o;;iµ;iF;o;;iµ;i>;@;iµ;-0;.0;	@;/0;0o;1	;@;iµ;o;	;@;o;;iµ;iJ;o;;iµ;iG;@;'o;2;	@;3;4;'"deg;o;	;@;o;;iµ;iJ;@⁄;@o;+;@;iµ;,"p_stops;	@;"p-stops;o;	;@;o;;iµ;iT;o;;iµ;iL;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;iµ;iU;o;;iµ;i(;@o; ;!o;	;@;o;;i∂;iY;o;;i∂;i(;@;i∂;";#;$o;	;@;o;;i∂;i&;o;;i∂;i;@;	@;%[ ;["background-image;o;	;@;@Ú;@ˆ;@;&i ;'o; ;@;i∂;0;	@;
+0;"linear-gradient;[o;(;)F;@;*o;+;@;i∂;,"p_wrapped_angle;	@;"p-wrapped-angle;o;	;@;o;;i∂;iJ;o;;i∂;i:;@;i∂;-0;.0;	@;/0;0o;1	;@;i∂;o;	;@;o;;i∂;iN;o;;i∂;iK;@;'o;2;	@;3;4;'"deg;o;	;@;o;;i∂;iN;@;@o;+;@;i∂;,"p_stops;	@;"p-stops;o;	;@;o;;i∂;iX;o;;i∂;iP;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;i∂;iY;o;;i∂;i(;@;""angular-linear-gradient;,[[o;-;@;i¶;."p_angle;	@;""p-angle;o;	;@;o;;i¶;i/;o;;i¶;i';@0;o;	;@;o;;i¶;i?;o;;i¶;i;@o;7;T;i∫;)o;-;@;i∫;."p_stops;	@;""p-stops;o;	;@;o;;i∫;iN;o;;i∫;iF;@;	@;
+[u;'[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineiª:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;iª:@offseti:@start_poso;;iª;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[
+o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;iº;im;o;;iº;i(;@;iº:@prop_syntax:new:@name_source_rangeo;	;@;o;;iº;i&;o;;iº;i;@;	@:@children[ ;["background-image;o;	;@;@;@;@:
+@tabsi :@valueo; ;@;iº;0;	@;
+0;"-moz-radial-gradient;[o:!Sass::Script::Tree::Variable;@;iº:@underscored_name"p_position_term;	@;"p-position-term;o;	;@;o;;iº;iM;o;;iº;i=;@o:$Sass::Script::Tree::ListLiteral;@;iº:@separator:
+space;	@:@elements[o;(;@;iº;)"p_shape_term;	@;"p-shape-term;o;	;@;o;;iº;i\;o;;iº;iO;@o: Sass::Script::Tree::Literal	;@;iº;o;	;@;o;;iº;ib;o;;iº;i];@;'o: Sass::Script::Value::String;	@:
+@type:identifier;'"
+cover;o;	;@;o;;iº;ib;o;;iº;iN;@o;(;@;iº;)"p_stops;	@;"p-stops;o;	;@;o;;iº;il;o;;iº;id;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;iº;im;o;;iº;i(;@o; ;!o;	;@;o;;iΩ;ip;o;;iΩ;i(;@;iΩ;";#;$o;	;@;o;;iΩ;i&;o;;iΩ;i;@;	@;%[ ;["background-image;o;	;@;@K;@O;@;&i ;'o; ;@;iΩ;0;	@;
+0;"-webkit-radial-gradient;[o;(;@;iΩ;)"p_position_term;	@;"p-position-term;o;	;@;o;;iΩ;iP;o;;iΩ;i@;@o;*;@;iΩ;+;,;	@;-[o;(;@;iΩ;)"p_shape_term;	@;"p-shape-term;o;	;@;o;;iΩ;i_;o;;iΩ;iR;@o;.	;@;iΩ;o;	;@;o;;iΩ;ie;o;;iΩ;i`;@;'o;/;	@;0;1;'"
+cover;o;	;@;o;;iΩ;ie;o;;iΩ;iQ;@o;(;@;iΩ;)"p_stops;	@;"p-stops;o;	;@;o;;iΩ;io;o;;iΩ;ig;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;iΩ;ip;o;;iΩ;i(;@o; ;!o;	;@;o;;iæ;ik;o;;iæ;i(;@;iæ;";#;$o;	;@;o;;iæ;i&;o;;iæ;i;@;	@;%[ ;["background-image;o;	;@;@};@|;@;&i ;'o; ;@;iæ;0;	@;
+0;"-o-radial-gradient;[o;(;@;iæ;)"p_position_term;	@;"p-position-term;o;	;@;o;;iæ;iK;o;;iæ;i;;@o;*;@;iæ;+;,;	@;-[o;(;@;iæ;)"p_shape_term;	@;"p-shape-term;o;	;@;o;;iæ;iZ;o;;iæ;iM;@o;.	;@;iæ;o;	;@;o;;iæ;i`;o;;iæ;i[;@;'o;/;	@;0;1;'"
+cover;o;	;@;o;;iæ;i`;o;;iæ;iL;@o;(;@;iæ;)"p_stops;	@;"p-stops;o;	;@;o;;iæ;ij;o;;iæ;ib;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;iæ;ik;o;;iæ;i(;@o; ;!o;	;@;o;;iø;il;o;;iø;i(;@;iø;";#;$o;	;@;o;;iø;i&;o;;iø;i;@;	@;%[ ;["background-image;o;	;@;@™;@Æ;@;&i ;'o; ;@;iø;0;	@;
+0;"-ms-radial-gradient;[o;(;@;iø;)"p_position_term;	@;"p-position-term;o;	;@;o;;iø;iL;o;;iø;i<;@o;*;@;iø;+;,;	@;-[o;(;@;iø;)"p_shape_term;	@;"p-shape-term;o;	;@;o;;iø;i[;o;;iø;iN;@o;.	;@;iø;o;	;@;o;;iø;ia;o;;iø;i\;@;'o;/;	@;0;1;'"
+cover;o;	;@;o;;iø;ia;o;;iø;iM;@o;(;@;iø;)"p_stops;	@;"p-stops;o;	;@;o;;iø;ik;o;;iø;ic;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;iø;il;o;;iø;i(;@o; ;!o;	;@;o;;i¿;id;o;;i¿;i(;@;i¿;";#;$o;	;@;o;;i¿;i&;o;;i¿;i;@;	@;%[ ;["background-image;o;	;@;@‹;@‡;@;&i ;'o; ;@;i¿;0;	@;
+0;"radial-gradient;[o;*;@;i¿;+;,;	@;-[o;(;@;i¿;)"p_shape_term;	@;"p-shape-term;o;	;@;o;;i¿;iE;o;;i¿;i8;@o;.	;@;i¿;o;	;@;o;;i¿;iH;o;;i¿;iF;@;'o;/;	@;0;1;'"ato;(;@;i¿;)"p_position_term;	@;"p-position-term;o;	;@;o;;i¿;iY;o;;i¿;iI;@;o;	;@;o;;i¿;iY;o;;i¿;i8;@o;(;@;i¿;)"p_stops;	@;"p-stops;o;	;@;o;;i¿;ic;o;;i¿;i[;@;o;;IC;{ ;[ ;{ ;o;	;@;o;;i¿;id;o;;i¿;i(;@;""shape-radial-gradient;,[[o;-;@;i∫;."p_shape_term;	@;""p-shape-term;o;	;@;o;;i∫;i2;o;;i∫;i%;@0[o;-;@;i∫;."p_position_term;	@;""p-position-term;o;	;@;o;;i∫;iD;o;;i∫;i4;@0;o;	;@;o;;i∫;iT;o;;i∫;i;@o;7;T;iƒ;)0;	@;
+[u;'®[o:'Sass::Script::Tree::UnaryOperation:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@operator:not:@operando: Sass::Script::Tree::Funcall;@:
+@linei≈:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i≈:@offseti :@start_poso;;i≈;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5;i≈;@	;o;	;@;o;;i≈;i ;o;;i≈;i;@0[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;i∆;iû;o;;i∆;i;@;i∆:@prop_syntax:new:@name_source_rangeo;	;@;o;;i∆;i;o;;i∆;i;@;@	:@children[ ;["filter;o;	;@;@;@!;@:
+@tabsi :@valueo:&Sass::Script::Tree::Interpolation:@originally_textF;@:	@mido:!Sass::Script::Tree::Variable;@;i∆:@underscored_name"p_type;@	;"p-type;o;	;@;o;;i∆;iã;o;;i∆;iÑ;@;i∆:@whitespace_afterF:@beforeo;,;-F;@;.o;/;@;i∆;0"p_end_color;@	;"p-end-color;o;	;@;o;;i∆;iv;o;;i∆;ij;@;i∆;1F;2o;,;-F;@;.o;/;@;i∆;0"p_start_color;@	;"p-start-color;o;	;@;o;;i∆;iX;o;;i∆;iJ;@;i∆;1F;2o: Sass::Script::Tree::Literal	;@;i∆;o;	;@;o;;i∆;iX;o;;i∆;i;@;+o: Sass::Script::Value::String;@	:
+@type:identifier;+"?progid:DXImageTransform.Microsoft.gradient(startColorstr=';@	:@whitespace_beforeF:@aftero;3	;@;i∆;o;	;@;o;;i∆;ih;@9;@;+o;4;@	;5;6;+"', endColorstr=';o;	;@;@C;@>;@;@	;7F;8o;3	;@;i∆;o;	;@;o;;i∆;iÄ;@2;@;+o;4;@	;5;6;+"',GradientType=;o;	;@;@I;@>;@;@	;7F;8o;3	;@;i∆;o;	;@;o;;i∆;iç;@+;@;+o;4;@	;5;6;+" );o;	;@;@O;@>;@;""filter-linear-gradient;,[[o;-;@;iƒ;."p_start_color;	@;""p-start-color;o;	;@;o;;iƒ;i4;o;;iƒ;i&;@0[o;-;@;iƒ;."p_end_color;	@;""p-end-color;o;	;@;o;;iƒ;iB;o;;iƒ;i6;@0[o;-;@;iƒ;."p_type;	@;""p-type;o;	;@;o;;iƒ;iK;o;;iƒ;iD;@0;o;	;@;o;;iƒ;iN;o;;iƒ;i;@o;7;T;i ;)0;	@;
+[u;'ø	[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineiÀ:@splat0:@options{ :@kwarg_splat0:
+@name"is-gte-ie9:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;iÀ:@offseti:@start_poso;;iÀ;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5u:Sass::Tree::IfNoded[00[o:Sass::Tree::PropNode:@value_source_rangeo:Sass::Source::Range	:
+@file"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@end_poso:Sass::Source::Position:
+@lineiŒ:@offseti):@start_poso;
+;iŒ;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5;iŒ:@prop_syntax:new:@name_source_rangeo;	;@	;	o;
+;iŒ;i;o;
+;iŒ;i;@:@options{ :@children[ :
+@name[o:!Sass::Script::Tree::Variable:@filename@	;iŒ:@underscored_name"p_prop;@;"p-prop:@source_rangeo;	;@	;	o;
+;iŒ;i;o;
+;iŒ;i;@;o;	;@	;	@
+;@;@:
+@tabsi :@valueo:&Sass::Script::Tree::Interpolation:@originally_textF;@	:	@mido;;@	;iŒ;"p_value;@;"p-value;o;	;@	;	o;
+;iŒ;i&;o;
+;iŒ;i;@;iŒ:@whitespace_after0:@before0;@:@whitespace_beforeim:@aftero: Sass::Script::Tree::Literal	;@	;iŒ;o;	;@	;	o;
+;iŒ;i);o;
+;iŒ;i';@;o: Sass::Script::Value::String;@:
+@type:identifier;"px;o;	;@	;	o;
+;iŒ;i);@#;@[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;iÃ;i0;o;;iÃ;i";@;iÃ:@prop_syntax:new:@name_source_rangeo;	;@;o;;iÃ;i ;o;;iÃ;i;@;	@:@children[ ;[o:!Sass::Script::Tree::Variable;@;iÃ:@underscored_name"p_prop;	@;"p-prop;o;	;@;o;;iÃ;i;o;;iÃ;i;@;o;	;@;@;@;@:
+@tabsi :@valueo:&Sass::Script::Tree::Interpolation:@originally_textF;@:	@mido;';@;iÃ;("p_value;	@;"p-value;o;	;@;o;;iÃ;i,;o;;iÃ;i$;@;iÃ:@whitespace_after0:@before0;	@:@whitespace_beforei;:@aftero: Sass::Script::Tree::Literal	;@;iÃ;o;	;@;o;;iÃ;i0;o;;iÃ;i-;@;*o: Sass::Script::Value::String;	@:
+@type:identifier;*"rem;o;	;@;o;;iÃ;i0;@.;@;""(property-and-value-in-rem-or-pixels;,[[o;-;@;i ;."p_prop;	@;""p-prop;o;	;@;o;;i ;i:;o;;i ;i3;@0[o;-;@;i ;."p_value;	@;""p-value;o;	;@;o;;i ;iD;o;;i ;i<;@0;o;	;@;o;;i ;iG;o;;i ;i;@o;7;T;i“;)0;	@;
+[u;'≤[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@linei”:@splat0:@options{ :@kwarg_splat0:
+@name"is-gte-ie8:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i”:@offseti:@start_poso;;i”;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5u:Sass::Tree::IfNodeƒ[00[o:Sass::Tree::PropNode:@value_source_rangeo:Sass::Source::Range	:
+@file"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@end_poso:Sass::Source::Position:
+@linei÷:@offseti:@start_poso;
+;i÷;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5;i÷:@prop_syntax:new:@name_source_rangeo;	;@	;	o;
+;i÷;i;o;
+;i÷;i;@:@options{ :@children[ :
+@name["	zoom:@source_rangeo;	;@	;	@
+;@;@:
+@tabsi :@valueo: Sass::Script::Tree::Literal;i÷;o;	;@	;	o;
+;i÷;i;o;
+;i÷;i;@;o: Sass::Script::Value::String;@:
+@type:identifier;"1o; ;o;	;@	;	o;
+;i÷;i.;o;
+;i÷;i(;@;i÷;;;o;	;@	;	o;
+;i÷;i&;o;
+;i÷;i;@;@;[ ;["display;o;	;@	;	@ ;@$;@;i ;o;;i÷;o;	;@	;	o;
+;i÷;i.;o;
+;i÷;i(;@;o;;@;; ;"inline[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;i‘;i%;o;;i‘;i;@;i‘:@prop_syntax:new:@name_source_rangeo;	;@;o;;i‘;i;o;;i‘;i;@;	@:@children[ ;["display;o;	;@;@;@;@:
+@tabsi :@valueo: Sass::Script::Tree::Literal;i‘;o;	;@;o;;i‘;i%;o;;i‘;i;@;(o: Sass::Script::Value::String;	@:
+@type:identifier;("inline-block;""display-inline-block;,[ ;o;	;@;o;;i“;i";o;;i“;i;@o;7;T;i⁄;)0;	@;
+[u;'t[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@linei€:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i€:@offseti:@start_poso;;i€;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;i‹;i&;o;;i‹;i;@;i‹:@prop_syntax:new:@name_source_rangeo;	;@;o;;i‹;i;o;;i‹;i;@;	@:@children[ ;["column-count;o;	;@;@;@;@:
+@tabsi :@valueo:!Sass::Script::Tree::Variable;@;i‹:@underscored_name"p_count;	@;"p-count;o;	;@;o;;i‹;i&;o;;i‹;i;@o; ;!o;	;@;o;;i›;i+;o;;i›;i#;@;i›;";#;$o;	;@;o;;i›;i!;o;;i›;i;@;	@;%[ ;["-moz-column-count;o;	;@;@*;@.;@;&i ;'o;(;@;i›;)"p_count;	@;"p-count;o;	;@;o;;i›;i+;o;;i›;i#;@o; ;!o;	;@;o;;iﬁ;i.;o;;iﬁ;i&;@;iﬁ;";#;$o;	;@;o;;iﬁ;i$;o;;iﬁ;i;@;	@;%[ ;["-webkit-column-count;o;	;@;@;;@?;@;&i ;'o;(;@;iﬁ;)"p_count;	@;"p-count;o;	;@;o;;iﬁ;i.;o;;iﬁ;i&;@o; ;!o;	;@;o;;iﬂ;i";o;;iﬂ;i;@;iﬂ;";#;$o;	;@;o;;iﬂ;i;o;;iﬂ;i;@;	@;%[ ;["column-gap;o;	;@;@L;@P;@;&i ;'o;(;@;iﬂ;)"
+p_gap;	@;"
+p-gap;o;	;@;o;;iﬂ;i";o;;iﬂ;i;@o; ;!o;	;@;o;;i‡;i';o;;i‡;i!;@;i‡;";#;$o;	;@;o;;i‡;i;o;;i‡;i;@;	@;%[ ;["-moz-column-gap;o;	;@;@];@a;@;&i ;'o;(;@;i‡;)"
+p_gap;	@;"
+p-gap;o;	;@;o;;i‡;i';o;;i‡;i!;@o; ;!o;	;@;o;;i·;i*;o;;i·;i$;@;i·;";#;$o;	;@;o;;i·;i";o;;i·;i;@;	@;%[ ;["-webkit-column-gap;o;	;@;@n;@r;@;&i ;'o;(;@;i·;)"
+p_gap;	@;"
+p-gap;o;	;@;o;;i·;i*;o;;i·;i$;@;""column-count-and-gap;,[[o;-;@;i⁄;."p_count;	@;""p-count;o;	;@;o;;i⁄;i,;o;;i⁄;i$;@o;	;@;i⁄;o;	;@;o;;i⁄;i/;o;;i⁄;i.;@;o;#
+;$"2;%[ ;	@;&[ ;i[o;-;@;i⁄;."
+p_gap;	@;""
+p-gap;o;	;@;o;;i⁄;i7;o;;i⁄;i1;@o;	;@;i⁄;o;	;@;o;;i⁄;i<;o;;i⁄;i9;@;o;#
+;$"1em;%[ ;	@;&["em;i;o;	;@;o;;i⁄;i?;o;;i⁄;i;@o;7;T;iÂ;)0;	@;
+[u;'¨[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineiÊ:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;iÊ:@offseti:@start_poso;;iÊ;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;iÁ;i%;o;;iÁ;i;@;iÁ:@prop_syntax:new:@name_source_rangeo;	;@;o;;iÁ;i;o;;iÁ;i;@;	@:@children[ ;["column-span;o;	;@;@;@;@:
+@tabsi :@valueo:!Sass::Script::Tree::Variable;@;iÁ:@underscored_name"p_value;	@;"p-value;o;	;@;o;;iÁ;i%;o;;iÁ;i;@o; ;!o;	;@;o;;iË;i*;o;;iË;i";@;iË;";#;$o;	;@;o;;iË;i ;o;;iË;i;@;	@;%[ ;["-moz-column-span;o;	;@;@*;@.;@;&i ;'o;(;@;iË;)"p_value;	@;"p-value;o;	;@;o;;iË;i*;o;;iË;i";@o; ;!o;	;@;o;;iÈ;i-;o;;iÈ;i%;@;iÈ;";#;$o;	;@;o;;iÈ;i#;o;;iÈ;i;@;	@;%[ ;["-webkit-column-span;o;	;@;@;;@?;@;&i ;'o;(;@;iÈ;)"p_value;	@;"p-value;o;	;@;o;;iÈ;i-;o;;iÈ;i%;@;""column-span;,[[o;-;@;iÂ;."p_value;	@;""p-value;o;	;@;o;;iÂ;i#;o;;iÂ;i;@o;	;@;iÂ;o;	;@;o;;iÂ;i(;o;;iÂ;i%;@;o;;	@; ;C;"all;o;	;@;o;;iÂ;i+;o;;iÂ;i;@o;7;T;iÌ;)0;	@;
+[u;'¨[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineiÓ:@splat0:@options{ :@kwarg_splat0:
+@name"is-standards:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;iÓ:@offseti:@start_poso;;iÓ;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;iÔ;i%;o;;iÔ;i;@;iÔ:@prop_syntax:new:@name_source_rangeo;	;@;o;;iÔ;i;o;;iÔ;i;@;	@:@children[ ;["column-rule;o;	;@;@;@;@:
+@tabsi :@valueo:!Sass::Script::Tree::Variable;@;iÔ:@underscored_name"p_value;	@;"p-value;o;	;@;o;;iÔ;i%;o;;iÔ;i;@o; ;!o;	;@;o;;i;i*;o;;i;i";@;i;";#;$o;	;@;o;;i;i ;o;;i;i;@;	@;%[ ;["-moz-column-rule;o;	;@;@*;@.;@;&i ;'o;(;@;i;)"p_value;	@;"p-value;o;	;@;o;;i;i*;o;;i;i";@o; ;!o;	;@;o;;iÒ;i-;o;;iÒ;i%;@;iÒ;";#;$o;	;@;o;;iÒ;i#;o;;iÒ;i;@;	@;%[ ;["-webkit-column-rule;o;	;@;@;;@?;@;&i ;'o;(;@;iÒ;)"p_value;	@;"p-value;o;	;@;o;;iÒ;i-;o;;iÒ;i%;@;""column-rule;,[[o;-;@;iÌ;."p_value;	@;""p-value;o;	;@;o;;iÌ;i#;o;;iÌ;i;@0;o;	;@;o;;iÌ;i&;o;;iÌ;i;@o;7;T;iı;)0;	@;
+[o;8;9o;	;@;o;;iˆ;i;o;;iˆ;i;@;iˆ;:;;;<o;	;@;o;;iˆ;i;o;;iˆ;i;@;	@;
+[ ;"["
+width;o;	;@;@ˆ;@˙;@;=i ;o;-;@;iˆ;."p_width;	@;""p-width;o;	;@;o;;iˆ;i;o;;iˆ;i;@u;'Ù[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@linei˜:@splat0:@options{ :@kwarg_splat0:
+@name"is-gte-ie8:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i˜:@offseti:@start_poso;;i˜;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;i¯;i,;o;;i¯;i!;@;i¯:@prop_syntax:new:@name_source_rangeo;	;@;o;;i¯;i;o;;i¯;i;@;	@:@children[ ;["border-collapse;o;	;@;@;@;@:
+@tabsi :@valueo:!Sass::Script::Tree::Variable;@;i¯:@underscored_name"p_collapse;	@;"p-collapse;o;	;@;o;;i¯;i,;o;;i¯;i!;@o; ;!o;	;@;o;;i˘;i;o;;i˘;i;@;i˘;";#;$o;	;@;o;;i˘;i;o;;i˘;i
+;@;	@;%[ ;["display;o;	;@;@*;@.;@;&i ;'o: Sass::Script::Tree::Literal;i˘;o;	;@;o;;i˘;i;o;;i˘;i;@;'o: Sass::Script::Value::String;	@:
+@type:identifier;'"
+table;"" table-column-set-with-width;,[[o;-;@;iı;."p_width;	@;""p-width;o;	;@;o;;iı;i3;o;;iı;i+;@o;	;@;iı;o;	;@;o;;iı;i9;o;;iı;i5;@;o;#
+;$"	100%;%[ ;	@;&["%;ii[o;-;@;iı;."p_collapse;	@;""p-collapse;o;	;@;o;;iı;iF;o;;iı;i;;@o;	;@;iı;o;	;@;o;;iı;iP;o;;iı;iH;@;o;;	@; ;C;"separate;o;	;@;o;;iı;iS;o;;iı;i;@o;7;T;i˝;)0;	@;
+[u;'ı[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@linei˛:@splat0:@options{ :@kwarg_splat0:
+@name"is-gte-ie8:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i˛:@offseti:@start_poso;;i˛;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5u:Sass::Tree::IfNode	[00[o:Sass::Tree::MixinNode:
+@linei:@splat0:@options{ :@children[ :@kwarg_splat0:
+@name"display-inline-block:
+@args[ :@keywords{ :@source_rangeo:Sass::Source::Range	:
+@file"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@end_poso:Sass::Source::Position;i:@offseti':@start_poso;;i;i
+:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;iˇ;i#;o;;iˇ;i;@;iˇ:@prop_syntax:new:@name_source_rangeo;	;@;o;;iˇ;i;o;;iˇ;i;@;	@:@children[ ;["display;o;	;@;@;@;@:
+@tabsi :@valueo: Sass::Script::Tree::Literal;iˇ;o;	;@;o;;iˇ;i#;o;;iˇ;i;@;(o: Sass::Script::Value::String;	@:
+@type:identifier;("table-cell;""table-cell-column;,[ ;o;	;@;o;;i˝;i#;o;;i˝;i;@o;7;T;i;)0;	@;
+[o;8;9o;	;@;o;;i;i#;o;;i;i;@;i;:;;;<o;	;@;o;;i;i;o;;i;i;@;	@;
+[ ;"["text-decoration;o;	;@;@4;@8;@;=i ;o;;i;o;	;@;o;;i;i#;o;;i;i;@;o;;	@; ;C;"	noneo;F;T;Go;	;@;o;;i;i;o;;i;i;@;i;Ho;I;" ;J[o;K;J[o;L;M0;@H;J[o;N;@H;i;O[ o:Sass::Selector::Pseudo
+;@H;i:	@arg0;"["
+hover:@syntactic_type:
+class;i;Po;;{ ;o;	;@H;o;;i;i;o;;i;i;0;i;S["&:hover;	@;
+[o;8;9o;	;@;o;;i;i0;o;;i;i';@;i;:;;;<o;	;@;o;;i;i%;o;;i;i;@;	@;
+[ ;"["text-decoration;o;	;@;@];@a;@;=i ;o;;i;o;	;@;o;;i;i0;o;;i;i';@;o;;	@; ;C;"underline;o;	;@;o;;i;i;o;;i;i;@;=i ;"" element-hovers-to-underline;,[ ;o;	;@;o;;i;i-;o;;i;i;@o;7;T;i;)0;	@;
+[o;8;9o;	;@;o;;i;i!;o;;i;i;@;i;:;;;<o;	;@;o;;i;i;o;;i;i;@;	@;
+[ ;"["border-style;o;	;@;@x;@|;@;=i ;o;;i;o;	;@;o;;i;i!;o;;i;i;@;o;;	@; ;C;"
+solidu;'≠[o:"Sass::Script::Tree::Operation:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@operator:eq:@operand2o: Sass::Script::Tree::Literal	;@:
+@linei:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i:@offseti':@start_poso;;i;i$:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String:@options{ :
+@type:identifier;"top;i:@operand1o:!Sass::Script::Tree::Variable;@;i:@underscored_name"p_direction;@:
+@name"p-direction;o;	;@;o;;i;i ;o;;i;i;@;@;o;	;@;o;;i;i(;@;@0[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;i;iQ;o;;i;i:;@;i:@prop_syntax:new:@name_source_rangeo;	;@;o;;i;i8;o;;i;i,;@;@:@children[ ;!["border-color;o;	;@;@;@";@:
+@tabsi ;o:&Sass::Script::Tree::Interpolation:@originally_textF;@:	@mido;;@;i; "p_color;@;!"p-color;o;	;@;o;;i;iD;o;;i;i<;@;i:@whitespace_afteri :@before0;@:@whitespace_beforeiÖ":@aftero;
+	;@;i;o;	;@;o;;i;iQ;o;;i;iF;@;o:Sass::Script::Value::Color;@:@attrs{	:redi :
+greeni :
+alphaf0:	bluei ;0;o;	;@;o;;i;iQ;@-;@o;";#o;	;@;o;;i;iÇ;o;;i;ia;@;i;$;%;&o;	;@;o;;i;i_;o;;i;iS;@;@;'[ ;!["border-width;o;	;@;@9;@=;@;(i ;o;);*F;@;+o;;@;i; "p_depth;@;!"p-depth;o;	;@;o;;i;iÅ;o;;i;i~;@;i;,0;-o;);*F;@;+o;;@;i; "p_length;@;!"p-length;o;	;@;o;;i;iz;o;;i;iq;@;i;,i ;-o;);*F;@;+o;;@;i; "p_depth;@;!"p-depth;o;	;@;o;;i;im;o;;i;ie;@;i;,i ;-o;
+	;@;i;o;	;@;o;;i;ib;o;;i;ia;@;o: Sass::Script::Value::Number
+:@original"0:@denominator_units[ ;@:@numerator_units[ ;i ;@;.iÆ";/0;o;	;@;o;;i;io;@Z;@;@;.i∫";/0;o;	;@;o;;i;i|;@Z;@;@;.i«";/0;o;	;@;o;;i;iÇ;@Z;@u;'Æ[o:"Sass::Script::Tree::Operation:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@operator:eq:@operand2o: Sass::Script::Tree::Literal	;@:
+@linei:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i:@offseti):@start_poso;;i;i$:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String:@options{ :
+@type:identifier;"
+right;i:@operand1o:!Sass::Script::Tree::Variable;@;i:@underscored_name"p_direction;@:
+@name"p-direction;o;	;@;o;;i;i ;o;;i;i;@;@;o;	;@;o;;i;i*;@;@0[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;i;iS;o;;i;i<;@;i:@prop_syntax:new:@name_source_rangeo;	;@;o;;i;i:;o;;i;i.;@;@:@children[ ;!["border-color;o;	;@;@;@";@:
+@tabsi ;o:&Sass::Script::Tree::Interpolation:@originally_textF;@:	@mido;;@;i; "p_color;@;!"p-color;o;	;@;o;;i;iR;o;;i;iJ;@;i:@whitespace_after0:@beforeo;
+	;@;i;o;	;@;o;;i;iG;o;;i;i<;@;o:Sass::Script::Value::Color;@:@attrs{	:redi :
+greeni :
+alphaf0:	bluei ;0;@:@whitespace_beforei#:@after0;o;	;@;o;;i;iS;@1;@o;";#o;	;@;o;;i;iÑ;o;;i;ic;@;i;$;%;&o;	;@;o;;i;ia;o;;i;iU;@;@;'[ ;!["border-width;o;	;@;@9;@=;@;(i ;o;);*F;@;+o;;@;i; "p_length;@;!"p-length;o;	;@;o;;i;iÉ;o;;i;i;@;i;,0;-o;);*F;@;+o;;@;i; "p_depth;@;!"p-depth;o;	;@;o;;i;i{;o;;i;is;@;i;,i ;-o;);*F;@;+o;;@;i; "p_depth;@;!"p-depth;o;	;@;o;;i;im;o;;i;ie;@;i;,i ;-0;@;4i3#;5o;
+	;@;i;o;	;@;o;;i;ip;o;;i;io;@;o: Sass::Script::Value::Number
+:@original"0:@denominator_units[ ;@:@numerator_units[ ;i ;o;	;@;o;;i;iq;@V;@;@;4iA#;50;o;	;@;o;;i;i};@V;@;@;4iM#;50;o;	;@;o;;i;iÑ;@V;@u;'±[o:"Sass::Script::Tree::Operation:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@operator:eq:@operand2o: Sass::Script::Tree::Literal	;@:
+@linei:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i:@offseti*:@start_poso;;i;i$:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String:@options{ :
+@type:identifier;"bottom;i:@operand1o:!Sass::Script::Tree::Variable;@;i:@underscored_name"p_direction;@:
+@name"p-direction;o;	;@;o;;i;i ;o;;i;i;@;@;o;	;@;o;;i;i+;@;@0[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;i;iT;o;;i;i=;@;i:@prop_syntax:new:@name_source_rangeo;	;@;o;;i;i;;o;;i;i/;@;@:@children[ ;!["border-color;o;	;@;@;@";@:
+@tabsi ;o:&Sass::Script::Tree::Interpolation:@originally_textF;@:	@mido;;@;i; "p_color;@;!"p-color;o;	;@;o;;i;iG;o;;i;i?;@;i:@whitespace_afteri :@before0;@:@whitespace_beforeiî#:@aftero;
+	;@;i;o;	;@;o;;i;iT;o;;i;iI;@;o:Sass::Script::Value::Color;@:@attrs{	:redi :
+greeni :
+alphaf0:	bluei ;0;o;	;@;o;;i;iT;@-;@o;";#o;	;@;o;;i;iÖ;o;;i;id;@;i;$;%;&o;	;@;o;;i;ib;o;;i;iV;@;@;'[ ;!["border-width;o;	;@;@9;@=;@;(i ;o;);*F;@;+o;;@;i; "p_depth;@;!"p-depth;o;	;@;o;;i;iÑ;o;;i;i|;@;i;,0;-o;);*F;@;+o;;@;i; "p_depth;@;!"p-depth;o;	;@;o;;i;i{;o;;i;is;@;i;,i ;-o;);*F;@;+o;;@;i; "p_length;@;!"p-length;o;	;@;o;;i;io;o;;i;if;@;i;,i ;-0;@;.iª#;/0;o;	;@;o;;i;iq;@V;@;@;.i»#;/o;
+	;@;i;o;	;@;o;;i;i~;o;;i;i};@;o: Sass::Script::Value::Number
+:@original"0:@denominator_units[ ;@:@numerator_units[ ;i ;o;	;@;o;;i;i;@V;@;@;.i÷#;/0;o;	;@;o;;i;iÖ;@V;@u;'∞[o:"Sass::Script::Tree::Operation:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@operator:eq:@operand2o: Sass::Script::Tree::Literal	;@:
+@linei:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i:@offseti(:@start_poso;;i;i$:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String:@options{ :
+@type:identifier;"	left;i:@operand1o:!Sass::Script::Tree::Variable;@;i:@underscored_name"p_direction;@:
+@name"p-direction;o;	;@;o;;i;i ;o;;i;i;@;@;o;	;@;o;;i;i);@;@0[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;i;iR;o;;i;i;;@;i:@prop_syntax:new:@name_source_rangeo;	;@;o;;i;i9;o;;i;i-;@;@:@children[ ;!["border-color;o;	;@;@;@";@:
+@tabsi ;o:&Sass::Script::Tree::Interpolation:@originally_textF;@:	@mido;;@;i; "p_color;@;!"p-color;o;	;@;o;;i;iQ;o;;i;iI;@;i:@whitespace_after0:@beforeo;
+	;@;i;o;	;@;o;;i;iF;o;;i;i;;@;o:Sass::Script::Value::Color;@:@attrs{	:redi :
+greeni :
+alphaf0:	bluei ;0;@:@whitespace_beforei&$:@after0;o;	;@;o;;i;iR;@1;@o;";#o;	;@;o;;i;iÉ;o;;i;ib;@;i;$;%;&o;	;@;o;;i;i`;o;;i;iT;@;@;'[ ;!["border-width;o;	;@;@9;@=;@;(i ;o;);*F;@;+o;;@;i; "p_length;@;!"p-length;o;	;@;o;;i;iÄ;o;;i;i|;@;i;,i ;-o;);*F;@;+o;;@;i; "p_depth;@;!"p-depth;o;	;@;o;;i;ix;o;;i;ip;@;i;,i ;-o;);*F;@;+o;;@;i; "p_depth;@;!"p-depth;o;	;@;o;;i;il;o;;i;id;@;i;,i ;-0;@;4iA$;50;o;	;@;o;;i;in;@V;@;@;4iM$;50;o;	;@;o;;i;iz;@V;@;@;4iY$;5o;
+	;@;i;o;	;@;o;;i;iÉ;o;;i;iÇ;@;o: Sass::Script::Value::Number
+:@original"0:@denominator_units[ ;@:@numerator_units[ ;i ;o;	;@;o;;i;iÉ;@V;@o;8;9o;	;@;o;;i;i;o;;i;i;@;i;:;;;<o;	;@;o;;i;i;o;;i;i;@;	@;
+[ ;"["
+width;o;	;@;@ç;@ë;@;=i ;o;;i;o;	;@;o;;i;i;o;;i;i;@;o;;	@; ;C;"0o;8;9o;	;@;o;;i;i;o;;i;i;@;i;:;;;<o;	;@;o;;i;i;o;;i;i;@;	@;
+[ ;"["height;o;	;@;@û;@¢;@;=i ;o;;i;o;	;@;o;;i;i;o;;i;i;@;o;;	@; ;C;"0o;8;9o;	;@;o;;i;i;o;;i;i;@;i;:;;;<o;	;@;o;;i;i;o;;i;i;@;	@;
+[ ;"["display;o;	;@;@Ø;@≥;@;=i ;o;;i;o;	;@;o;;i;i;o;;i;i;@;o;;	@; ;C;"
+block;""8border-triangle-of-direction-color-length-and-depth;,[	[o;-;@;i;."p_direction;	@;""p-direction;o;	;@;o;;i;iO;o;;i;iC;@o;	;@;i;o;	;@;o;;i;iV;o;;i;iQ;@;o;;	@; ;C;"
+right[o;-;@;i;."p_color;	@;""p-color;o;	;@;o;;i;i`;o;;i;iX;@o;-;@;i;."color_primary;	@;""color-primary;o;	;@;o;;i;ip;o;;i;ib;@[o;-;@;i;."p_length;	@;""p-length;o;	;@;o;;i;i{;o;;i;ir;@o;	;@;i;o;	;@;o;;i;i{;o;;i;i};@;o;#
+;$"1em;%[ ;	@;&["em;i[o;-;@;i;."p_depth;	@;""p-depth;o;	;@;o;;i;iÖ;o;;i;i};@o;	;@;i;o;	;@;o;;i;iä;o;;i;iá;@;o;#
+;$"1em;%[ ;	@;&["em;i;o;	;@;o;;i;iç;o;;i;i;@o:Sass::Tree::CommentNode
+;i;	@;
+[ ; :silent;["/* CANDIDATE TO REMOVE */o;7;T;i;)0;	@;
+[u;'[o:$Sass::Script::Tree::ListLiteral:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@linei:@separator:
+space:@options{ :@elements[o: Sass::Script::Tree::Literal	;@;i:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i:@offseti:@start_poso;;i;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String;
+@:
+@type:identifier;"is-gte-ie8o; ;@;i;0;
+@;[ ;o;	;@;o;;i;i;o;;i;i;@;o;	;@;o;;i;i;o;;i;i;@0[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;i;i&;o;;i;i;@;i:@prop_syntax:new:@name_source_rangeo;	;@;o;;i;i;o;;i;i;@;
+@:@children[ :
+@name["box-sizing;o;	;@;@;@#;@:
+@tabsi ;o;;i;o;	;@;o;;i;i&;o;;i;i;@;o;;
+@;;;"border-boxo;;o;	;@;o;;i;i+;o;;i;i!;@;i; ;!;"o;	;@;o;;i;i;o;;i;i;@;
+@;#[ ;$["-moz-box-sizing;o;	;@;@0;@4;@;%i ;o;;i;o;	;@;o;;i;i+;o;;i;i!;@;o;;
+@;;;"border-boxo;;o;	;@;o;;i;i.;o;;i;i$;@;i; ;!;"o;	;@;o;;i;i";o;;i;i;@;
+@;#[ ;$["-webkit-box-sizing;o;	;@;@A;@E;@;%i ;o;;i;o;	;@;o;;i;i.;o;;i;i$;@;o;;
+@;;;"border-box;""box-sizing-border-box;,[ ;o;	;@;o;;i;i';o;;i;i;@o;a
+;i ;	@;
+[ ; ;b;["0/* REPLACEMENT FOR box-sizing-border-box */o;7;T;i!;)0;	@;
+[o;8;9o;	;@;o;;i";i;o;;i";i;@;i";:;;;<o;	;@;o;;i";i;o;;i";i;@;	@;
+[ ;"["box-sizing;o;	;@;@;@;@;=i ;o;-;@;i";."
+value;	@;""
+value;o;	;@;o;;i";i;o;;i";i;@o;8;9o;	;@;o;;i#;i";o;;i#;i;@;i#;:;;;<o;	;@;o;;i#;i;o;;i#;i;@;	@;
+[ ;"["-webkit-box-sizing;o;	;@;@";@&;@;=i ;o;-;@;i#;."
+value;	@;""
+value;o;	;@;o;;i#;i";o;;i#;i;@o;8;9o;	;@;o;;i$;i;o;;i$;i;@;i$;:;;;<o;	;@;o;;i$;i;o;;i$;i;@;	@;
+[ ;"["-moz-box-sizing;o;	;@;@3;@7;@;=i ;o;-;@;i$;."
+value;	@;""
+value;o;	;@;o;;i$;i;o;;i$;i;@;""box-sizing;,[[o;-;@;i!;."
+value;	@;""
+value;o;	;@;o;;i!;i ;o;;i!;i;@0;o;	;@;o;;i!;i#;o;;i!;i;@o;7;T;i';)0;	@;
+[o:Sass::Tree::DirectiveNode;T;i(;	@;
+[
+o;8;9o;	;@;o;;i(;i/;o;;i(;i(;@;i(;:;;;<o;	;@;o;;i(;i&;o;;i(;i;@;	@;
+[ ;"["font-family;o;	;@;@T;@X;@;=i ;o;-;@;i(;."p_name;	@;""p-name;o;	;@;o;;i(;i/;o;;i(;i(;@o;8;9o;	;@;o;;i(;iK;o;;i(;i6;@;i(;:;;;<o;	;@;o;;i(;i4;o;;i(;i1;@;	@;
+[ ;"["src;o;	;@;@e;@i;@;=i ;o;\;@;i(;)0;	@;U0;""url;,[o:,Sass::Script::Tree::StringInterpolation;@;@o;-;@;i(;."p_file;	@;""p-file;o;	;@;o;;i(;iD;o;;i(;i=;@;i(;Bo;	;@;i(;o;	;@;o;;i(;i;;o;;i(;i:;@;o;;	@; ;!;" ;	@;Eo;	;@;i(;o;	;@;o;;i(;iJ;o;;i(;iE;@;o;;	@; ;!;"	.eot;o;	;@;o;;i(;iJ;@{;@;Vo;W;XIC;Y{ ;Z[ ;[{ ;o;	;@;o;;i(;iK;o;;i(;i6;@o;8;9o;	;@;o;;i(;i;o;;i(;iR;@;i(;:;;;<o;	;@;o;;i(;iP;o;;i(;iM;@;	@;
+[ ;"["src;o;	;@;@è;@ì;@;=i ;o:$Sass::Script::Tree::ListLiteral;@;i(:@separator:
+comma;	@:@elements[	o;e;@;i(;f:
+space;	@;h[o;\;@;i(;)0;	@;U0;""url;,[o;d;@;@o;-;@;i(;."p_file;	@;""p-file;o;	;@;o;;i(;i`;o;;i(;iY;@;i(;Bo;	;@;i(;o;	;@;o;;i(;iW;o;;i(;iV;@;o;;	@; ;!;" ;	@;Eo;	;@;i(;o;	;@;o;;i(;im;o;;i(;ia;@;o;;	@; ;!;".eot?#iefix;o;	;@;o;;i(;im;@©;@;Vo;W;XIC;Y{ ;Z[ ;[{ ;o;	;@;o;;i(;in;o;;i(;iR;@o;\;@;i(;)0;	@;U0;""format;,[o;	;@;i(;o;	;@;o;;i(;iÑ;o;;i(;iv;@;o;;	@; ;!;"embedded-opentype;Vo;W;XIC;Y{ ;Z[ ;[{ ;o;	;@;o;;i(;iÖ;o;;i(;io;@;o;	;@;o;;i(;iÖ;o;;i(;iR;@o;e;@;i(;f;i;	@;h[o;\;@;i(;)0;	@;U0;""url;,[o;d;@;@o;-;@;i(;."p_file;	@;""p-file;o;	;@;o;;i(;iï;o;;i(;ié;@;i(;Bo;	;@;i(;o;	;@;o;;i(;iå;o;;i(;iã;@;o;;	@; ;!;" ;	@;Eo;	;@;i(;o;	;@;o;;i(;iú;o;;i(;iñ;@;o;;	@; ;!;"
+.woff;o;	;@;o;;i(;iú;@›;@;Vo;W;XIC;Y{ ;Z[ ;[{ ;o;	;@;o;;i(;iù;o;;i(;iá;@o;\;@;i(;)0;	@;U0;""format;,[o;	;@;i(;o;	;@;o;;i(;i´;o;;i(;i•;@;o;;	@; ;!;"	woff;Vo;W;XIC;Y{ ;Z[ ;[{ ;o;	;@;o;;i(;i¨;o;;i(;iû;@;o;	;@;o;;i(;i¨;o;;i(;iá;@o;e;@;i(;f;i;	@;h[o;\;@;i(;)0;	@;U0;""url;,[o;d;@;@o;-;@;i(;."p_file;	@;""p-file;o;	;@;o;;i(;iº;o;;i(;iµ;@;i(;Bo;	;@;i(;o;	;@;o;;i(;i≥;o;;i(;i≤;@;o;;	@; ;!;" ;	@;Eo;	;@;i(;o;	;@;o;;i(;i¬;o;;i(;iΩ;@;o;;	@; ;!;"	.ttf;o;	;@;o;;i(;i¬;@;@;Vo;W;XIC;Y{ ;Z[ ;[{ ;o;	;@;o;;i(;i√;o;;i(;iÆ;@o;\;@;i(;)0;	@;U0;""format;,[o;	;@;i(;o;	;@;o;;i(;i’;o;;i(;iÀ;@;o;;	@; ;!;"truetype;Vo;W;XIC;Y{ ;Z[ ;[{ ;o;	;@;o;;i(;i÷;o;;i(;iƒ;@;o;	;@;o;;i(;i÷;o;;i(;iÆ;@o;e;@;i(;f;i;	@;h[o;\;@;i(;)0;	@;U0;""url;,[o;d;@;@o;-;@;i(;."p_file;	@;""p-file;o;	;@;o;;i(;iÊ;o;;i(;iﬂ;@;i(;Bo;	;@;i(;o;	;@;o;;i(;i›;o;;i(;i‹;@;o;;	@; ;!;" ;	@;Eo;d;@;@o;-;@;i(;."p_name;	@;""p-name;o;	;@;o;;i(;iı;o;;i(;iÓ;@;i(;Bo;	;@;i(;o;	;@;o;;i(;iÏ;o;;i(;iÁ;@;o;;	@; ;!;"
+.svg#;	@;Eo;	;@;i(;o;	;@;o;;i(;i˜;o;;i(;iˆ;@;o;;	@; ;!;" ;o;	;@;o;;i(;i˜;@R;@;o;	;@;o;;i(;i˜;@E;@;Vo;W;XIC;Y{ ;Z[ ;[{ ;o;	;@;o;;i(;i¯;o;;i(;iÿ;@o;\;@;i(;)0;	@;U0;""format;,[o;	;@;i(;o;	;@;o;;i(;i;o;;i(;i ;@;o;;	@; ;!;"svg;Vo;W;XIC;Y{ ;Z[ ;[{ ;o;	;@;o;;i(;i;o;;i(;i˘;@;o;	;@;o;;i(;i;o;;i(;iÿ;@;o;	;@;o;;i(;iÖ;o;;i(;iR;@o;8;9o;	;@;o;;i(;i!;o;;i(;i;@;i(;:;;;<o;	;@;o;;i(;i;o;;i(;i;@;	@;
+[ ;"["font-weight;o;	;@;@~;@Ç;@;=i ;o;>;?F;@;@o;-;@;i(;."p_weight;	@;""p-weight;o;	;@;o;;i(;i ;o;;i(;i;@;i(;A0;B0;	@;Diw';E0;o;	;@;o;;i(;i!;@ç;@o;8;9o;	;@;o;;i(;i:;o;;i(;i/;@;i(;:;;;<o;	;@;o;;i(;i-;o;;i(;i#;@;	@;
+[ ;"["font-style;o;	;@;@í;@ñ;@;=i ;o;>;?F;@;@o;-;@;i(;."p_style;	@;""p-style;o;	;@;o;;i(;i9;o;;i(;i1;@;i(;A0;B0;	@;Dië';E0;o;	;@;o;;i(;i:;@°;@;o;	;@;o;;i(;i=;o;;i(;i;@;=i ;["@font-face;""font-face;,[	[o;-;@;i';."p_name;	@;""p-name;o;	;@;o;;i';i;o;;i';i;@0[o;-;@;i';."p_file;	@;""p-file;o;	;@;o;;i';i(;o;;i';i!;@0[o;-;@;i';."p_weight;	@;""p-weight;o;	;@;o;;i';i3;o;;i';i*;@o;	;@;i';o;	;@;o;;i';i=;o;;i';i5;@;o;;	@; ;!;"normal[o;-;@;i';."p_style;	@;""p-style;o;	;@;o;;i';iG;o;;i';i?;@o;	;@;i';o;	;@;o;;i';iQ;o;;i';iI;@;o;;	@; ;!;"normal;o;	;@;o;;i';iT;o;;i';i;@o;7;T;i+;)o;-;@;i+;."p_shadow;	@;""p-shadow;o;	;@;o;;i+;i";o;;i+;i;@;	@;
+[u;'H[o:$Sass::Script::Tree::ListLiteral:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@linei,:@separator:
+space:@options{ :@elements[o: Sass::Script::Tree::Literal	;@;i,:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i,:@offseti:@start_poso;;i,;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String;
+@:
+@type:identifier;"is-gte-ie9o; ;@;i,;0;
+@;[ ;o;	;@;o;;i,;i;o;;i,;i;@;o;	;@;o;;i,;i;o;;i,;i;@0[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;i-;i+;o;;i-;i";@;i-:@prop_syntax:new:@name_source_rangeo;	;@;o;;i-;i ;o;;i-;i;@;
+@:@children[ :
+@name["box-shadow;o;	;@;@;@#;@:
+@tabsi ;o:!Sass::Script::Tree::Variable;@;i-:@underscored_name"p_shadow;
+@;$"p-shadow;o;	;@;o;;i-;i+;o;;i-;i";@o;;o;	;@;o;;i.;i3;o;;i.;i*;@;i.; ;!;"o;	;@;o;;i.;i(;o;;i.;i;@;
+@;#[ ;$["-webkit-box-shadow;o;	;@;@0;@4;@;%i ;o;&;@;i.;'"p_shadow;
+@;$"p-shadow;o;	;@;o;;i.;i3;o;;i.;i*;@o;;o;	;@;o;;i/;i0;o;;i/;i';@;i/; ;!;"o;	;@;o;;i/;i%;o;;i/;i;@;
+@;#[ ;$["-moz-box-shadow;o;	;@;@A;@E;@;%i ;o;&;@;i/;'"p_shadow;
+@;$"p-shadow;o;	;@;o;;i/;i0;o;;i/;i';@;""box-shadow;,[ ;o;	;@;o;;i+;i(;o;;i+;i;@o;7;T;i3;)0;	@;
+[u;'•[o:$Sass::Script::Tree::ListLiteral:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@linei4:@separator:
+space:@options{ :@elements[o: Sass::Script::Tree::Literal	;@;i4:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i4:@offseti:@start_poso;;i4;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String;
+@:
+@type:identifier;"is-gte-ie8o; ;@;i4;0;
+@;[ ;o;	;@;o;;i4;i;o;;i4;i;@;o;	;@;o;;i4;i;o;;i4;i;@u:Sass::Tree::IfNode,[00[o:Sass::Tree::PropNode:@value_source_rangeo:Sass::Source::Range	:
+@file"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@end_poso:Sass::Source::Position:
+@linei::@offsetiF:@start_poso;
+;i:;i(:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5;i::@prop_syntax:new:@name_source_rangeo;	;@	;	o;
+;i:;i&;o;
+;i:;i;@:@options{ :@children[ :
+@name["background-image:@source_rangeo;	;@	;	@
+;@;@:
+@tabsi :@valueo:,Sass::Script::Tree::StringInterpolation:@filename@	:	@mido:!Sass::Script::Tree::Variable;@	;i::@underscored_name"p_path;@;"p-path;o;	;@	;	o;
+;i:;i5;o;
+;i:;i.;@;i::@beforeo: Sass::Script::Tree::Literal	;@	;i:;o;	;@	;	o;
+;i:;i,;o;
+;i:;i(;@;o: Sass::Script::Value::String;@:
+@type:identifier;"	url(;@:@aftero;;@	;o; ;@	;i:;!"p_fallback;@;"p-fallback;o;	;@	;	o;
+;i:;iD;o;
+;i:;i9;@;i:;"o;#	;@	;i:;o;	;@	;	o;
+;i:;i7;o;
+;i:;i6;@;o;$;@;%;&;".;@;'o;#	;@	;i:;o;	;@	;	o;
+;i:;iF;o;
+;i:;iE;@;o;$;@;%;&;");o;	;@	;	o;
+;i:;iF;@/;@;o;	;@	;	o;
+;i:;iF;@";@[o:Sass::Tree::PropNode:@value_source_rangeo;	;@;o;;i5;i;;o;;i5;i(;@;i5:@prop_syntax:new:@name_source_rangeo;	;@;o;;i5;i&;o;;i5;i;@;
+@:@children[ :
+@name["background-image;o;	;@;@ ;@$;@:
+@tabsi ;o:,Sass::Script::Tree::StringInterpolation;@:	@mido:!Sass::Script::Tree::Variable;@;i5:@underscored_name"p_path;
+@;%"p-path;o;	;@;o;;i5;i5;o;;i5;i.;@;i5:@beforeo;	;@;i5;o;	;@;o;;i5;i,;o;;i5;i(;@;o;;
+@;;;"	url(;
+@:@aftero;	;@;i5;o;	;@;o;;i5;i;;o;;i5;i6;@;o;;
+@;;;"
+.svg);o;	;@;o;;i5;i;;@3;@o:Sass::Tree::RuleNode:@has_childrenT:@selector_source_rangeo;	;@;o;;i6;i ;o;;i6;i;@;i6:@parsed_ruleso:"Sass::Selector::CommaSequence;" :@members[o:Sass::Selector::Sequence;2[o:#Sass::Selector::SimpleSequence:@subject0;@C;2[o:Sass::Selector::Class;@C;i6;%["no-svg;i6:@sourceso;;{ ;o;	;@C;o;;i;i;o;;i;i;0o;4;50;@C;2[o:Sass::Selector::Parent;@C;i6:@suffix[ ;i6;7o;;{ ;o;	;@C;o;;i;i;o;;i;i;0;i6:
+@rule[".no-svg &;
+@;$[o;; o;	;@;o;;i7;iN;o;;i7;i0;@;i7;!;";#o;	;@;o;;i7;i.;o;;i7;i;@;
+@;$[ ;%["background-image;o;	;@;@_;@c;@;&i ;o;';@;(o;);@;i7;*"p_path;
+@;%"p-path;o;	;@;o;;i7;i=;o;;i7;i6;@;i7;+o;	;@;i7;o;	;@;o;;i7;i4;o;;i7;i0;@;o;;
+@;;;"	url(;
+@;,o;';@;(o;);@;i7;*"p_fallback;
+@;%"p-fallback;o;	;@;o;;i7;iL;o;;i7;iA;@;i7;+o;	;@;i7;o;	;@;o;;i7;i?;o;;i7;i>;@;o;;
+@;;;".;
+@;,o;	;@;i7;o;	;@;o;;i7;iN;o;;i7;iM;@;o;;
+@;;;");o;	;@;o;;i7;iN;@;@;o;	;@;o;;i7;iN;@r;@;o;	;@;o;;i6;i ;o;;i6;i;@;&i ;""background-svg;,[[o;-;@;i3;."p_path;	@;""p-path;o;	;@;o;;i3;i$;o;;i3;i;@0[o;-;@;i3;."p_fallback;	@;""p-fallback;o;	;@;o;;i3;i1;o;;i3;i&;@o;	;@;i3;o;	;@;o;;i3;i8;o;;i3;i3;@;o;;	@; ;!;"png;o;	;@;o;;i3;i;;o;;i3;i;@o;7;T;i>;)0;	@;
+[u;'[o:$Sass::Script::Tree::ListLiteral:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@linei?:@separator:
+space:@options{ :@elements[o: Sass::Script::Tree::Literal	;@;i?:@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i?:@offseti:@start_poso;;i?;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5:@valueo: Sass::Script::Value::String;
+@:
+@type:identifier;"is-gte-ie8o; ;@;i?;0;
+@;[ ;o;	;@;o;;i?;i;o;;i?;i;@;o;	;@;o;;i?;i;o;;i?;i;@0[
+o:Sass::Tree::DirectiveNode:@has_childrenT;i@;
+@:@children[o:Sass::Tree::ContentNode	;i@;
+@; [ ;o;	;@;o;;i@;i6;o;;i@;i.;@;o;	;@;o;;i@;i9;o;;i@;i;@:
+@tabsi ;["@keyframes o:!Sass::Script::Tree::Variable;@;i@:@underscored_name"p_name;
+@:
+@name"p-name;o;	;@;o;;i@;i*;o;;i@;i#;@" o;;T;iA;
+@; [o;!	;iA;
+@; [ ;o;	;@;o;;iA;i>;o;;iA;i6;@;o;	;@;o;;iA;iA;o;;iA;i;@;"i ;["@-webkit-keyframes o;#;@;iA;$"p_name;
+@;%"p-name;o;	;@;o;;iA;i2;o;;iA;i+;@" o;;T;iB;
+@; [o;!	;iB;
+@; [ ;o;	;@;o;;iB;i;;o;;iB;i3;@;o;	;@;o;;iB;i>;o;;iB;i;@;"i ;["@-moz-keyframes o;#;@;iB;$"p_name;
+@;%"p-name;o;	;@;o;;iB;i/;o;;iB;i(;@" o;;T;iC;
+@; [o;!	;iC;
+@; [ ;o;	;@;o;;iC;i:;o;;iC;i2;@;o;	;@;o;;iC;i=;o;;iC;i;@;"i ;["@-ms-keyframes o;#;@;iC;$"p_name;
+@;%"p-name;o;	;@;o;;iC;i.;o;;iC;i';@" o;;T;iD;
+@; [o;!	;iD;
+@; [ ;o;	;@;o;;iD;i9;o;;iD;i1;@;o;	;@;o;;iD;i<;o;;iD;i;@;"i ;["@-o-keyframes o;#;@;iD;$"p_name;
+@;%"p-name;o;	;@;o;;iD;i-;o;;iD;i&;@" ;""keyframes;,[[o;-;@;i>;."p_name;	@;""p-name;o;	;@;o;;i>;i ;o;;i>;i;@0;o;	;@;o;;i>;i#;o;;i>;i;@o;7;T;iH;)0;	@;
+[o;8;9o;	;@;o;;iI;i ;o;;iI;i;@;iI;:;;;<o;	;@;o;;iI;i;o;;iI;i;@;	@;
+[ ;"["appearance;o;	;@;@;@;@;=i ;o;;iI;o;	;@;o;;iI;i ;o;;iI;i;@;o;;	@; ;C;"normalo;8;9o;	;@;o;;iI;i:;o;;iI;i6;@;iI;:;;;<o;	;@;o;;iI;i4;o;;iI;i";@;	@;
+[ ;"["-webkit-appearance;o;	;@;@$;@(;@;=i ;o;;iI;o;	;@;o;;iI;i:;o;;iI;i6;@;o;;	@; ;C;"	none;""appear;,[ ;o;	;@;o;;iH;i;o;;iH;i;@o;7;T;iL;)0;	@;
+[u;'2[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineiM:@splat0:@options{ :@kwarg_splat0:
+@name"is-gte-ie9:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;iM:@offseti :@start_poso;;iM;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5u:Sass::Tree::IfNode¿[00[o:Sass::Tree::ContentNode	:
+@lineiR:@options{ :@children[ :@source_rangeo:Sass::Source::Range	:
+@file"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:@end_poso:Sass::Source::Position;iR:@offseti:@start_poso;;iR;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5[o:Sass::Tree::MediaNode:@has_childrenT;iN;	@:@children[o:Sass::Tree::ContentNode	;iO;	@;#[ ;o;	;@;o;;iO;i&;o;;iO;i;@:@query[
+"(o: Sass::Script::Tree::Literal	;@;iN;o;	;@;o;;iN;i';o;;iN;i;@:@valueo: Sass::Script::Value::String;	@:
+@type:identifier;'"min-width": o:!Sass::Script::Tree::Variable;@;iN:@underscored_name"p_start;	@;"p-start;o;	;@;o;;iN;i1;o;;iN;i);@");o;	;@;o;;iN;i3;o;;iN;i;@:
+@tabsi ;'" ;""breakpoint;,[[o;-;@;iL;."p_start;	@;""p-start;o;	;@;o;;iL;i";o;;iL;i;@0;o;	;@;o;;iL;i%;o;;iL;i;@o;7;T;iV;)0;	@;
+[u;'É[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@lineiW:@splat0:@options{ :@kwarg_splat0:
+@name"is-gte-ie9:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;iW:@offseti :@start_poso;;iW;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::MediaNode:@has_childrenT;iX;	@:@children[o:Sass::Tree::ContentNode	;iY;	@;"[ ;o;	;@;o;;iY;i&;o;;iY;i;@:@query[
+"(o: Sass::Script::Tree::Literal	;@;iX;o;	;@;o;;iX;i';o;;iX;i;@:@valueo: Sass::Script::Value::String;	@:
+@type:identifier;&"max-width": o:"Sass::Script::Tree::Operation;@:@operator:
+minus:@operand2o;%	;@;iX;o;	;@;o;;iX;i;;o;;iX;i4;@;&o: Sass::Script::Value::Number
+:@original"0.001em:@denominator_units[ ;	@:@numerator_units["em;&f0.001 ©¸;iX:@operand1o:!Sass::Script::Tree::Variable;@;iX:@underscored_name"p_start;	@;"p-start;o;	;@;o;;iX;i1;o;;iX;i);@;	@;o;	;@;o;;iX;i<;@7;@");o;	;@;o;;iX;i>;o;;iX;i;@:
+@tabsi ;&" ;""reverse-breakpoint;,[[o;-;@;iV;."p_start;	@;""p-start;o;	;@;o;;iV;i*;o;;iV;i";@0;o;	;@;o;;iV;i-;o;;iV;i;@o;7;T;i_;)0;	@;
+[u;'=[o: Sass::Script::Tree::Funcall:@filename"]/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V5/default.scss:
+@linei`:@splat0:@options{ :@kwarg_splat0:
+@name"is-gte-ie9:
+@args[ :@keywordso:Sass::Util::NormalizedMap:	@mapIC:OrderedHash{ :
+@keys[ :@key_strings{ :@source_rangeo:Sass::Source::Range	:
+@file@:@end_poso:Sass::Source::Position;i`:@offseti :@start_poso;;i`;i:@importero: Sass::Importers::Filesystem:@same_name_warningso:Set:
+@hash{ :
+@root"P/Users/thunder57/Documents/Processes/Frontend/Framework Versions/2014.Q2.V50[o:Sass::Tree::MediaNode:@has_childrenT;ia;	@:@children[o:Sass::Tree::ContentNode	;ib;	@;"[ ;o;	;@;o;;ib;i&;o;;ib;i;@:@query["(o: Sass::Script::Tree::Literal	;@;ia;o;	;@;o;;ia;i(;o;;ia;i;@:@valueo: Sass::Script::Value::String;	@:
+@type:identifier;&"min-width": o:!Sass::Script::Tree::Variable;@;ia:@underscored_name"p_start;	@;"p-start;o;	;@;o;;ia;i2;o;;ia;i*;@")"
+ and "(o;%	;@;ia;o;	;@;o;;ia;iC;o;;ia;i:;@;&o;';	@;(;);&"max-width": o:"Sass::Script::Tree::Operation;@:@operator:
+minus:@operand2o;%	;@;ia;o;	;@;o;;ia;iU;o;;ia;iN;@;&o: Sass::Script::Value::Number
+:@original"0.001em:@denominator_units[ ;	@:@numerator_units["em;&f0.001 ©¸;ia:@operand1o;*;@;ia;+"
+p_end;	@;"
+p-end;o;	;@;o;;ia;iK;o;;ia;iE;@;	@;o;	;@;o;;ia;iV;@G;@");o;	;@;o;;ia;iX;o;;ia;i;@:
+@tabsi ;&" ;""breakpoint-range;,[[o;-;@;i_;."p_start;	@;""p-start;o;	;@;o;;i_;i(;o;;i_;i ;@0[o;-;@;i_;."
+p_end;	@;""
+p-end;o;	;@;o;;i_;i0;o;;i_;i*;@0;o;	;@;o;;i_;i3;o;;i_;i;@o;7;T;ig;)0;	@;
+[o;8;9o;	;@;o;;ih;i%;o;;ih;i;@;ih;:;;;<o;	;@;o;;ih;i;o;;ih;i;@;	@;
+[ ;"["text-overflow;o;	;@;@p;@t;@;=i ;o;;ih;o;	;@;o;;ih;i%;o;;ih;i;@;o;;	@; ;C;"ellipsiso;8;9o;	;@;o;;ih;i:;o;;ih;i4;@;ih;:;;;<o;	;@;o;;ih;i2;o;;ih;i';@;	@;
+[ ;"["white-space;o;	;@;@Å;@Ö;@;=i ;o;;ih;o;	;@;o;;ih;i:;o;;ih;i4;@;o;;	@; ;C;"nowrapo;8;9o;	;@;o;;ih;iL;o;;ih;iF;@;ih;:;;;<o;	;@;o;;ih;iD;o;;ih;i<;@;	@;
+[ ;"["overflow;o;	;@;@í;@ñ;@;=i ;o;;ih;o;	;@;o;;ih;iL;o;;ih;iF;@;o;;	@; ;C;"hidden;""text-is-one-line-ellipsis;,[ ;o;	;@;o;;ig;i';o;;ig;i;@o;7;T;ik;)0;	@;
+[	o;8;9o;	;@;o;;il;i;o;;il;i;@;il;:;;;<o;	;@;o;;il;i;o;;il;i;@;	@;
+[ ;"["text-align;o;	;@;@™;@Æ;@;=i ;o;;il;o;	;@;o;;il;i;o;;il;i;@;o;;	@; ;C;"justifyo;8;9o;	;@;o;;im;i;o;;im;i;@;im;:;;;<o;	;@;o;;im;i;o;;im;i;@;	@;
+[ ;"["line-height;o;	;@;@ª;@ø;@;=i ;o;;im;o;	;@;o;;im;i;o;;im;i;@;o;;	@; ;C;"0o;F;T;Go;	;@;o;;in;i;o;;in;i;@;in;Ho;I;" ;J[o;K;J[o;L;M0;@œ;J[o;N;@œ;in;O[ o;]
+;@œ;in;^0;"["
+after;_;`;in;Po;;{ ;o;	;@œ;o;;i;i;o;;i;i;0;in;S["&:after;	@;
+[	o;8;9o;	;@;o;;io;i;o;;io;i;@;io;:;;;<o;	;@;o;;io;i;o;;io;i
+;@;	@;
+[ ;"["content;o;	;@;@‰;@Ë;@;=i ;o;;io;o;	;@;o;;io;i;o;;io;i;@;o;;	@; ;C;"""o;T;ip;)0;	@;
+[ ;U0;""display-inline-block;,[ ;V{ ;o;	;@;o;;ip;i';o;;ip;i
+;@o;8;9o;	;@;o;;iq;i;o;;iq;i;@;iq;:;;;<o;	;@;o;;iq;i;o;;iq;i
+;@;	@;
+[ ;"["
+width;o;	;@;@˝;@	;@;=i ;o;;iq;o;	;@;o;;iq;i;o;;iq;i;@;o;;	@; ;C;"	100%o;8;9o;	;@;o;;ir;i;o;;ir;i;@;ir;:;;;<o;	;@;o;;ir;i;o;;ir;i
+;@;	@;
+[ ;"["height;o;	;@;@	;@	;@;=i ;o;;ir;o;	;@;o;;ir;i;o;;ir;i;@;o;;	@; ;C;"0;o;	;@;o;;in;i;o;;in;i;@;=i o;F;T;Go;	;@;o;;it;i;o;;it;i;@;it;Ho;I;" ;J[o;K;J[o;L;M0;@%	;J[o;N;@%	;it;O[ ;it;Po;;{ ;o;	;@%	;o;;i;i;o;;i;i;0">o;L;M0;@%	;J[o:Sass::Selector::Universal;@%	;it;R0;it;Po;;{ ;o;	;@%	;o;;i;i;o;;i;i
+;0;it;S["
+& > *;	@;
+[o;T;iu;)0;	@;
+[ ;U0;""display-inline-block;,[ ;V{ ;o;	;@;o;;iu;i';o;;iu;i
+;@o;8;9o;	;@;o;;iv;i;o;;iv;i;@;iv;:;;;<o;	;@;o;;iv;i;o;;iv;i
+;@;	@;
+[ ;"["line-height;o;	;@;@H	;@L	;@;=i ;o;;iv;o;	;@;o;;iv;i;o;;iv;i;@;o;;	@; ;C;"1o;8;9o;	;@;o;;iw;i;o;;iw;i;@;iw;:;;;<o;	;@;o;;iw;i;o;;iw;i
+;@;	@;
+[ ;"["vertical-align;o;	;@;@Y	;@]	;@;=i ;o;;iw;o;	;@;o;;iw;i;o;;iw;i;@;o;;	@; ;C;"top;o;	;@;o;;it;i;o;;it;i;@;=i ;"""justified-inline-block-layout;,[ ;o;	;@;o;;ik;i+;o;;ik;i;@o;7;T;i{;)0;	@;
+[o;8;9o;	;@;o;;i|;i;o;;i|;i;@;i|;:;;;<o;	;@;o;;i|;i;o;;i|;i;@;	@;
+[ ;"["text-align;o;	;@;@t	;@x	;@;=i ;o;;i|;o;	;@;o;;i|;i;o;;i|;i;@;o;;	@; ;C;"justifyo;8;9o;	;@;o;;i};i;o;;i};i;@;i};:;;;<o;	;@;o;;i};i;o;;i};i;@;	@;
+[ ;"["line-height;o;	;@;@Ö	;@â	;@;=i ;o;;i};o;	;@;o;;i};i;o;;i};i;@;o;;	@; ;C;"0o;F;T;Go;	;@;o;;i~;i;o;;i~;i;@;i~;Ho;I;" ;J[o;K;J[o;L;M0;@ô	;J[o;N;@ô	;i~;O[ o;]
+;@ô	;i~;^0;"["
+after;_;`;i~;Po;;{ ;o;	;@ô	;o;;i;i;o;;i;i;0;i~;S["&:after;	@;
+[	o;8;9o;	;@;o;;i;i;o;;i;i;@;i;:;;;<o;	;@;o;;i;i;o;;i;i
+;@;	@;
+[ ;"["content;o;	;@;@Æ	;@≤	;@;=i ;o;;i;o;	;@;o;;i;i;o;;i;i;@;o;;	@; ;C;"""o;T;iÄ;)0;	@;
+[ ;U0;""display-inline-block;,[ ;V{ ;o;	;@;o;;iÄ;i';o;;iÄ;i
+;@o;8;9o;	;@;o;;iÅ;i;o;;iÅ;i;@;iÅ;:;;;<o;	;@;o;;iÅ;i;o;;iÅ;i
+;@;	@;
+[ ;"["
+width;o;	;@;@«	;@À	;@;=i ;o;;iÅ;o;	;@;o;;iÅ;i;o;;iÅ;i;@;o;;	@; ;C;"	100%o;8;9o;	;@;o;;iÇ;i;o;;iÇ;i;@;iÇ;:;;;<o;	;@;o;;iÇ;i;o;;iÇ;i
+;@;	@;
+[ ;"["height;o;	;@;@ÿ	;@‹	;@;=i ;o;;iÇ;o;	;@;o;;iÇ;i;o;;iÇ;i;@;o;;	@; ;C;"0;o;	;@;o;;i~;i;o;;i~;i;@;=i ;"")justified-inline-block-layout-parent;,[ ;o;	;@;o;;i{;i2;o;;i{;i;@o;7;T;iÜ;)0;	@;
+[o;T;iá;)0;	@;
+[ ;U0;""display-inline-block;,[ ;V{ ;o;	;@;o;;iá;i%;o;;iá;i;@o;8;9o;	;@;o;;ià;i;o;;ià;i;@;ià;:;;;<o;	;@;o;;ià;i;o;;ià;i;@;	@;
+[ ;"["line-height;o;	;@;@˚	;@ˇ	;@;=i ;o;;ià;o;	;@;o;;ià;i;o;;ià;i;@;o;;	@; ;C;"1o;8;9o;	;@;o;;iâ;i;o;;iâ;i;@;iâ;:;;;<o;	;@;o;;iâ;i;o;;iâ;i;@;	@;
+[ ;"["vertical-align;o;	;@;@
+;@
+;@;=i ;o;;iâ;o;	;@;o;;iâ;i;o;;iâ;i;@;o;;	@; ;C;"top;""(justified-inline-block-layout-child;,[ ;o;	;@;o;;iÜ;i1;o;;iÜ;i;@o;7;T;iå;)0;	@;
+[o;8;9o;	;@;o;;iç;i;o;;iç;i;@;iç;:;;;<o;	;@;o;;iç;i;o;;iç;i;@;	@;
+[ ;"["padding-top;o;	;@;@$
+;@(
+;@;=i ;o;;iç;o;	;@;o;;iç;i;o;;iç;i;@;o;;	@; ;C;"1pxo;8;9o;	;@;o;;iç;i-;o;;iç;i*;@;iç;:;;;<o;	;@;o;;iç;i(;o;;iç;i;@;	@;
+[ ;"["padding-bottom;o;	;@;@5
+;@9
+;@;=i ;o;;iç;o;	;@;o;;iç;i-;o;;iç;i*;@;o;;	@; ;C;"1px;"" child-margins-are-contained;,[ ;o;	;@;o;;iå;i);o;;iå;i;@;o;	;@;o;;i;i;o;;i;i;@
